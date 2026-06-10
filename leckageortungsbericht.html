@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leckageortungsbericht – SanTech Devey</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;font-size:15px;background:#f0f2f5;color:#1a1a1a;min-height:100vh}
+.app{max-width:680px;margin:0 auto;padding:12px}
+
+/* Header */
+.header{background:#0f3460;color:#fff;padding:14px 16px;border-radius:12px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center}
+.header h1{font-size:17px;font-weight:600}
+.header p{font-size:11px;opacity:0.7;margin-top:2px}
+.key-btn{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:#fff;padding:6px 10px;border-radius:8px;font-size:12px;cursor:pointer}
+.key-btn:hover{background:rgba(255,255,255,0.25)}
+
+/* Progress */
+.progress-wrap{margin-bottom:14px}
+.progress-labels{display:flex;justify-content:space-between;margin-bottom:4px}
+.progress-label{font-size:10px;color:#888;text-align:center;flex:1}
+.progress-label.active{color:#0f3460;font-weight:600}
+.progress-bar{display:flex;gap:4px}
+.bar-seg{flex:1;height:5px;border-radius:3px;background:#ddd;transition:background 0.3s}
+.bar-seg.done{background:#1d9e75}
+.bar-seg.active{background:#0f3460}
+
+/* Card */
+.card{background:#fff;border-radius:12px;padding:16px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,0.08)}
+.section-title{font-size:13px;font-weight:700;color:#0f3460;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid #e8f0fb}
+
+/* Fields */
+.field{margin-bottom:12px}
+.field label{display:block;font-size:12px;font-weight:600;color:#555;margin-bottom:4px}
+.field input,.field textarea,.field select{width:100%;padding:9px 11px;border:1.5px solid #ddd;border-radius:8px;font-size:14px;font-family:Arial,sans-serif;color:#1a1a1a;background:#fff;transition:border-color 0.2s;-webkit-appearance:none}
+.field input:focus,.field textarea:focus,.field select:focus{outline:none;border-color:#0f3460}
+.field textarea{resize:vertical;min-height:80px;line-height:1.55}
+.field .hint{font-size:11px;color:#999;margin-top:3px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.optional-tag{font-size:10px;color:#aaa;font-weight:400;margin-left:4px}
+
+/* Chips */
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:5px}
+.chip{padding:7px 13px;border:1.5px solid #ddd;border-radius:20px;font-size:13px;cursor:pointer;background:#fff;color:#444;transition:all 0.15s;user-select:none;-webkit-user-select:none}
+.chip:hover{border-color:#0f3460;color:#0f3460}
+.chip.selected{background:#0f3460;color:#fff;border-color:#0f3460}
+
+/* Bildtitel */
+.bildtitel-wrap{margin-top:8px}
+.bildtitel-row{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.bildtitel-row input{flex:1;padding:7px 10px;border:1.5px solid #ddd;border-radius:8px;font-size:13px;font-family:Arial,sans-serif}
+.bildtitel-row input:focus{outline:none;border-color:#0f3460}
+.btn-remove{background:#fee;border:1px solid #fcc;color:#c00;width:28px;height:28px;border-radius:6px;cursor:pointer;font-size:16px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.btn-add-bild{background:#f0f8ff;border:1.5px dashed #b0d0f0;color:#0f3460;padding:7px 14px;border-radius:8px;cursor:pointer;font-size:13px;margin-top:4px;width:100%;text-align:center}
+.btn-add-bild:hover{background:#e0f0ff}
+
+/* Navigation */
+.nav{display:flex;gap:8px;justify-content:space-between;margin-top:16px}
+.btn{padding:10px 20px;border-radius:9px;border:1.5px solid #ddd;background:#fff;color:#333;font-size:14px;cursor:pointer;font-family:Arial,sans-serif;font-weight:500;transition:all 0.15s}
+.btn:hover{background:#f5f5f5}
+.btn-primary{background:#0f3460;color:#fff;border-color:#0f3460}
+.btn-primary:hover{background:#0a2540}
+.btn-generate{background:#1d9e75;color:#fff;border-color:#1d9e75;padding:11px 24px;font-size:15px}
+.btn-generate:hover{background:#0f6e56}
+.btn:disabled{opacity:0.5;cursor:not-allowed}
+
+/* Result */
+.result-box{background:#f8f9fa;border:1.5px solid #e0e0e0;border-radius:10px;padding:16px;white-space:pre-wrap;font-size:13px;line-height:1.75;min-height:300px;max-height:60vh;overflow-y:auto;font-family:'Courier New',monospace;color:#1a1a1a}
+.result-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.btn-action{padding:11px;border-radius:9px;border:1.5px solid #ddd;background:#fff;color:#333;font-size:13px;cursor:pointer;font-family:Arial,sans-serif;font-weight:500;text-align:center;transition:all 0.15s}
+.btn-action:hover{background:#f5f5f5}
+.btn-action.primary{background:#0f3460;color:#fff;border-color:#0f3460}
+.btn-action.primary:hover{background:#0a2540}
+.btn-action.success{background:#1d9e75;color:#fff;border-color:#1d9e75}
+.btn-action.success:hover{background:#0f6e56}
+.btn-action.reset{grid-column:1/-1;background:#fff3e0;border-color:#ffcc80;color:#e65100}
+
+/* Loading */
+.loading{text-align:center;padding:40px 20px;color:#666}
+.spinner{width:36px;height:36px;border:3px solid #e0e0e0;border-top-color:#0f3460;border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 14px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Error */
+.error-box{background:#fff3f3;border:1.5px solid #ffcccc;border-radius:10px;padding:14px;color:#c00;font-size:13px;margin-top:10px}
+
+/* API Key Modal */
+.modal-bg{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:100;align-items:center;justify-content:center;padding:16px}
+.modal-bg.show{display:flex}
+.modal{background:#fff;border-radius:14px;padding:24px;max-width:420px;width:100%}
+.modal h2{font-size:16px;margin-bottom:8px;color:#0f3460}
+.modal p{font-size:13px;color:#666;margin-bottom:14px;line-height:1.5}
+.modal input{width:100%;padding:10px 12px;border:1.5px solid #ddd;border-radius:8px;font-size:13px;margin-bottom:12px;font-family:monospace}
+.modal input:focus{outline:none;border-color:#0f3460}
+.modal-btns{display:flex;gap:8px;justify-content:flex-end}
+
+/* Section visibility */
+.section{display:none}
+.section.active{display:block}
+
+/* Saved badge */
+.saved{font-size:11px;color:#1d9e75;margin-left:8px}
+</style>
+</head>
+<body>
+
+<div class="app">
+  <div class="header">
+    <div>
+      <h1>&#128269; Leckageortungsbericht</h1>
+      <p>SanTech Devey UG &bull; K&ouml;ln</p>
+    </div>
+    <button class="key-btn" onclick="showKeyModal()">&#128273; API-Key</button>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-labels">
+      <div class="progress-label active" id="lbl0">Objekt</div>
+      <div class="progress-label" id="lbl1">Anlass</div>
+      <div class="progress-label" id="lbl2">Schadensbild</div>
+      <div class="progress-label" id="lbl3">Untersuchung</div>
+      <div class="progress-label" id="lbl4">Feststellung</div>
+      <div class="progress-label" id="lbl5">Bewertung</div>
+      <div class="progress-label" id="lbl6">Empfehlung</div>
+      <div class="progress-label" id="lbl7">Fotos</div>
+    </div>
+    <div class="progress-bar">
+      <div class="bar-seg active" id="seg0"></div>
+      <div class="bar-seg" id="seg1"></div>
+      <div class="bar-seg" id="seg2"></div>
+      <div class="bar-seg" id="seg3"></div>
+      <div class="bar-seg" id="seg4"></div>
+      <div class="bar-seg" id="seg5"></div>
+      <div class="bar-seg" id="seg6"></div>
+      <div class="bar-seg" id="seg7"></div>
+    </div>
+  </div>
+
+  <!-- S0: Objekt / Einsatzdaten -->
+  <div class="section active" id="s0">
+    <div class="card">
+      <div class="section-title">1. Objekt / Einsatzdaten</div>
+      <div class="row2">
+        <div class="field"><label>Stra&szlig;e &amp; Hausnummer</label><input id="strasse" placeholder="z.B. Bonner Str. 15"></div>
+        <div class="field"><label>PLZ &amp; Ort</label><input id="ort" placeholder="z.B. 50321 Br&uuml;hl"></div>
+      </div>
+      <div class="field"><label>Bereich <span class="optional-tag">(Leitungsart / betroffene Zone)</span></label><input id="bereich" placeholder="z.B. K&uuml;chenabwasserleitung / Deckenbereich 1. OG bis DG"></div>
+      <div class="row2">
+        <div class="field"><label>Datum des Einsatzes</label><input id="datum" type="date"></div>
+        <div class="field"><label>Auftragsnummer <span class="optional-tag">optional</span></label><input id="auftrag" placeholder="z.B. 2026-042"></div>
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label>Kontaktperson</label>
+          <select id="kontakt_typ">
+            <option value="Eigent&uuml;mer">Eigent&uuml;mer</option>
+            <option value="Mieter">Mieter</option>
+            <option value="Auftraggeber">Auftraggeber</option>
+            <option value="Hausverwaltung">Hausverwaltung</option>
+          </select>
+        </div>
+        <div class="field"><label>Name</label><input id="kontakt_name" placeholder="z.B. Herr Kaya"></div>
+      </div>
+      <div class="field"><label>Auftraggeber / Verwaltung <span class="optional-tag">optional</span></label><input id="auftraggeber" placeholder="z.B. Hausverwaltung Mustermann GmbH"></div>
+    </div>
+    <div class="nav"><div></div><button class="btn btn-primary" onclick="goTo(1)">Weiter &#8594;</button></div>
+  </div>
+
+  <!-- S1: Anlass / Schadensmeldung -->
+  <div class="section" id="s1">
+    <div class="card">
+      <div class="section-title">2. Anlass / Schadensmeldung</div>
+      <div class="field">
+        <label>Was wurde gemeldet? <span class="optional-tag">Stichw&ouml;rter gen&uuml;gen</span></label>
+        <textarea id="anlass" placeholder="z.B. Wasseraustritt Decke 1. OG wenn Mieter DG Waschbecken benutzt&#10;z.B. feuchte Wand Bad seit 3 Wochen&#10;z.B. Druckverlust Heizung, Ursache unbekannt"></textarea>
+        <div class="hint">Der Bericht wird daraus einen vollst&auml;ndigen Absatz formulieren.</div>
+      </div>
+      <div class="field">
+        <label>Wie wurde der Einsatz beauftragt?</label>
+        <div class="chips" id="auftrag-chips">
+          <div class="chip" onclick="toggleChip(this,'auftrag_art')">Direktbeauftragung Eigent&uuml;mer</div>
+          <div class="chip" onclick="toggleChip(this,'auftrag_art')">Beauftragung durch Hausverwaltung</div>
+          <div class="chip" onclick="toggleChip(this,'auftrag_art')">Versicherungsauftrag</div>
+          <div class="chip" onclick="toggleChip(this,'auftrag_art')">Notfalleinsatz</div>
+        </div>
+      </div>
+    </div>
+    <div class="nav">
+      <button class="btn" onclick="goTo(0)">&#8592; Zur&uuml;ck</button>
+      <button class="btn btn-primary" onclick="goTo(2)">Weiter &#8594;</button>
+    </div>
+  </div>
+
+  <!-- S2: Schadensbild vor Ort -->
+  <div class="section" id="s2">
+    <div class="card">
+      <div class="section-title">3. Schadensbild vor Ort</div>
+      <div class="field">
+        <label>Was wurde vor Ort vorgefunden? <span class="optional-tag">Stichw&ouml;rter gen&uuml;gen</span></label>
+        <textarea id="schadensbild" placeholder="z.B. Feuchteauff&auml;lligkeit Decke 1. OG&#10;z.B. Wasseraustritt bei Nutzung Waschbecken DG&#10;z.B. Schimmel Wand Bad, Tapete l&ouml;st sich"></textarea>
+      </div>
+      <div class="field">
+        <label>Betroffene Bereiche</label>
+        <div class="chips" id="bereich-chips">
+          <div class="chip" onclick="toggleChip(this,'bereiche')">Bad</div>
+          <div class="chip" onclick="toggleChip(this,'bereiche')">K&uuml;che</div>
+          <div class="chip" onclick="toggleChip(this,'bereiche')">Wohnzimmer</div>
+          <div class="chip" onclick="toggleChip(this,'bereiche')">Schlafzimmer</div>
+          <div class="chip" onclick="toggleChip(this,'bereiche')">Keller</div>
+          <div class="chip" onclick="toggleChip(this,'bereiche')">Flur</div>
+          <div class="chip" onclick="toggleChip(this,'bereiche')">Decke</div>
+          <div class="chip" onclick="toggleChip(this,'bereiche')">Boden / Estrich</div>
+          <div class="chip" onclick="toggleChip(this,'bereiche')">Wand</div>
+          <div class="chip" onclick="toggleChip(this,'bereiche')">Dachgeschoss</div>
+          <div class="chip" onclick="toggleChip(this,'bereiche')">Darunter liegende Wohnung</div>
+          <div class="chip" onclick="toggleChip(this,'bereiche')">Au&szlig;enbereich</div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Weitere Auff&auml;lligkeiten <span class="optional-tag">optional</span></label>
+        <textarea id="schadensbild2" placeholder="z.B. Leitungsf&uuml;hrung &uuml;ber mehrere Geschosse&#10;z.B. Wohnung stand l&auml;ngere Zeit leer" style="min-height:60px"></textarea>
+      </div>
+    </div>
+    <div class="nav">
+      <button class="btn" onclick="goTo(1)">&#8592; Zur&uuml;ck</button>
+      <button class="btn btn-primary" onclick="goTo(3)">Weiter &#8594;</button>
+    </div>
+  </div>
+
+  <!-- S3: Durchgeführte Untersuchungen -->
+  <div class="section" id="s3">
+    <div class="card">
+      <div class="section-title">4. Durchgef&uuml;hrte Untersuchungen</div>
+      <div class="field">
+        <label>Verwendete Methoden</label>
+        <div class="chips" id="methoden-chips">
+          <div class="chip" onclick="toggleChip(this,'methoden')">Sichtpr&uuml;fung</div>
+          <div class="chip" onclick="toggleChip(this,'methoden')">Feuchtemessung</div>
+          <div class="chip" onclick="toggleChip(this,'methoden')">Thermografie</div>
+          <div class="chip" onclick="toggleChip(this,'methoden')">Endoskopie / Kamera</div>
+          <div class="chip" onclick="toggleChip(this,'methoden')">Druckpr&uuml;fung</div>
+          <div class="chip" onclick="toggleChip(this,'methoden')">Akustik / Horchstab</div>
+          <div class="chip" onclick="toggleChip(this,'methoden')">Leitungsortung</div>
+          <div class="chip" onclick="toggleChip(this,'methoden')">Tracer-Gas</div>
+          <div class="chip" onclick="toggleChip(this,'methoden')">Wandbereich ge&ouml;ffnet</div>
+          <div class="chip" onclick="toggleChip(this,'methoden')">Estrich ge&ouml;ffnet</div>
+          <div class="chip" onclick="toggleChip(this,'methoden')">Leitungsverlauf &uuml;berpr&uuml;ft</div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Details zur Untersuchung <span class="optional-tag">Stichw&ouml;rter gen&uuml;gen</span></label>
+        <textarea id="methoden_detail" placeholder="z.B. Kamera 1m in Kanal, &Uuml;bergang Gussrohr auf HT-Rohr kontrolliert&#10;z.B. Wandbereich DG ge&ouml;ffnet, trocken&#10;z.B. 2. OG Wandbereich ge&ouml;ffnet, Leitungsbereich freigelegt"></textarea>
+      </div>
+    </div>
+    <div class="nav">
+      <button class="btn" onclick="goTo(2)">&#8592; Zur&uuml;ck</button>
+      <button class="btn btn-primary" onclick="goTo(4)">Weiter &#8594;</button>
+    </div>
+  </div>
+
+  <!-- S4: Technische Feststellungen -->
+  <div class="section" id="s4">
+    <div class="card">
+      <div class="section-title">5. Technische Feststellungen</div>
+      <div class="field">
+        <label>Ergebnis der Ortung</label>
+        <div class="chips" id="ergebnis-chips">
+          <div class="chip" onclick="selectSingle(this,'ergebnis')">Leckage lokalisiert</div>
+          <div class="chip" onclick="selectSingle(this,'ergebnis')">Bauteil&ouml;ffnung erforderlich</div>
+          <div class="chip" onclick="selectSingle(this,'ergebnis')">Kein Befund</div>
+          <div class="chip" onclick="selectSingle(this,'ergebnis')">Teilbefund / weitere Untersuchung n&ouml;tig</div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Feststellung / Ursache <span class="optional-tag">Stichw&ouml;rter gen&uuml;gen</span></label>
+        <textarea id="feststellung" placeholder="z.B. Anschlussbogen + Abzweig K&uuml;chenabwasserleitung defekt, 2. OG&#10;z.B. Kaltwasserzuleitung Dusche undicht, Rohrverbindung&#10;z.B. Leckage Heizungsleitung unter Estrich Bad"></textarea>
+      </div>
+      <div class="field">
+        <label>Messergebnisse <span class="optional-tag">optional – nur wenn gemessen</span></label>
+        <textarea id="messwerte" placeholder="z.B. Feuchtigkeitswert 87% Wand Bad (Norm max. 65%)&#10;z.B. Druckverlust 0,4 bar in 30 min&#10;z.B. Thermografie zeigt Temperaturanomalie unter Dusche" style="min-height:65px"></textarea>
+      </div>
+    </div>
+    <div class="nav">
+      <button class="btn" onclick="goTo(3)">&#8592; Zur&uuml;ck</button>
+      <button class="btn btn-primary" onclick="goTo(5)">Weiter &#8594;</button>
+    </div>
+  </div>
+
+  <!-- S5: Bewertung / Ursache -->
+  <div class="section" id="s5">
+    <div class="card">
+      <div class="section-title">6. Bewertung / wahrscheinliche Ursache</div>
+      <div class="field">
+        <label>Ursache &amp; Zusammenhang <span class="optional-tag">Stichw&ouml;rter gen&uuml;gen</span></label>
+        <textarea id="bewertung" placeholder="z.B. Undichtigkeit Anschlussbogen Abwasserleitung 2. OG, Wasser bei Nutzung K&uuml;che DG&#10;z.B. Korrosion Kupferleitung, Verbindung undicht&#10;z.B. Dichtung WC-Anschluss defekt, Leckage seit l&auml;ngerem"></textarea>
+      </div>
+      <div class="field">
+        <label>Dringlichkeit</label>
+        <div class="chips" id="dring-chips">
+          <div class="chip" onclick="selectSingle(this,'dringlichkeit')">Sofortma&szlig;nahme erforderlich</div>
+          <div class="chip" onclick="selectSingle(this,'dringlichkeit')">Zeitnahe Instandsetzung empfohlen</div>
+          <div class="chip" onclick="selectSingle(this,'dringlichkeit')">Kontrolle ausreichend</div>
+        </div>
+      </div>
+    </div>
+    <div class="nav">
+      <button class="btn" onclick="goTo(4)">&#8592; Zur&uuml;ck</button>
+      <button class="btn btn-primary" onclick="goTo(6)">Weiter &#8594;</button>
+    </div>
+  </div>
+
+  <!-- S6: Empfohlene Maßnahmen -->
+  <div class="section" id="s6">
+    <div class="card">
+      <div class="section-title">7. Empfohlene Ma&szlig;nahmen</div>
+      <div class="field">
+        <label>Ma&szlig;nahmen</label>
+        <div class="chips" id="empfehlung-chips">
+          <div class="chip" onclick="toggleChip(this,'empfehlung')">Haupthahn absperren</div>
+          <div class="chip" onclick="toggleChip(this,'empfehlung')">Bereich weiter &ouml;ffnen</div>
+          <div class="chip" onclick="toggleChip(this,'empfehlung')">Defektes Bauteil erneuern</div>
+          <div class="chip" onclick="toggleChip(this,'empfehlung')">Fachgerechte Reparatur</div>
+          <div class="chip" onclick="toggleChip(this,'empfehlung')">&Ouml;ffnung Installationswand</div>
+          <div class="chip" onclick="toggleChip(this,'empfehlung')">&Ouml;ffnung Estrich</div>
+          <div class="chip" onclick="toggleChip(this,'empfehlung')">&Ouml;ffnung Steige-/Strangschacht</div>
+          <div class="chip" onclick="toggleChip(this,'empfehlung')">Technische Bautrocknung</div>
+          <div class="chip" onclick="toggleChip(this,'empfehlung')">Kontrollmessungen</div>
+          <div class="chip" onclick="toggleChip(this,'empfehlung')">Dichtigkeitspr&uuml;fung nach Instandsetzung</div>
+          <div class="chip" onclick="toggleChip(this,'empfehlung')">Funktionspr&uuml;fung nach Instandsetzung</div>
+          <div class="chip" onclick="toggleChip(this,'empfehlung')">Schimmel entfernen</div>
+          <div class="chip" onclick="toggleChip(this,'empfehlung')">Versicherung informieren</div>
+          <div class="chip" onclick="toggleChip(this,'empfehlung')">Weitere Leckageortung n&ouml;tig</div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Weitere Empfehlungen <span class="optional-tag">optional</span></label>
+        <textarea id="empfehlung_frei" placeholder="z.B. Gesamte alte Abwasserleitung pr&uuml;fen lassen&#10;z.B. Rohrleitungssanierung empfohlen" style="min-height:60px"></textarea>
+      </div>
+    </div>
+    <div class="nav">
+      <button class="btn" onclick="goTo(5)">&#8592; Zur&uuml;ck</button>
+      <button class="btn btn-primary" onclick="goTo(7)">Weiter &#8594;</button>
+    </div>
+  </div>
+
+  <!-- S7: Fotodokumentation -->
+  <div class="section" id="s7">
+    <div class="card">
+      <div class="section-title">8. Fotodokumentation</div>
+      <div class="field">
+        <label>Bildtitel eingeben</label>
+        <div class="hint" style="margin-bottom:8px">Trage die Beschriftungen ein wie sie im Bericht erscheinen sollen.</div>
+        <div class="bildtitel-wrap" id="bildtitel-wrap">
+          <div class="bildtitel-row">
+            <input type="text" placeholder="Bild 1: z.B. Kontroll&ouml;ffnung im Dachgeschoss entlang des Leitungsverlaufs" class="bildtitel-input">
+            <button class="btn-remove" onclick="removeBild(this)">&#215;</button>
+          </div>
+          <div class="bildtitel-row">
+            <input type="text" placeholder="Bild 2: z.B. Ge&ouml;ffneter Wandbereich mit freigelegter Abwasserleitung" class="bildtitel-input">
+            <button class="btn-remove" onclick="removeBild(this)">&#215;</button>
+          </div>
+        </div>
+        <button class="btn-add-bild" onclick="addBild()">+ Weiteres Bild hinzuf&uuml;gen</button>
+      </div>
+    </div>
+    <div class="nav">
+      <button class="btn" onclick="goTo(6)">&#8592; Zur&uuml;ck</button>
+      <button class="btn btn-generate" onclick="generate()">&#9889; Bericht generieren</button>
+    </div>
+  </div>
+
+  <!-- S8: Ergebnis -->
+  <div class="section" id="s8">
+    <div class="card">
+      <div class="section-title">Fertiger Bericht</div>
+      <div id="loading" class="loading" style="display:none">
+        <div class="spinner"></div>
+        <div>Bericht wird erstellt&hellip;</div>
+        <div style="font-size:12px;color:#aaa;margin-top:6px">Bitte warten</div>
+      </div>
+      <div id="error-box" class="error-box" style="display:none"></div>
+      <div id="result-wrap" style="display:none">
+        <div class="result-box" id="result-text"></div>
+        <div class="result-actions">
+          <button class="btn-action primary" onclick="copyText()">&#128203; Kopieren</button>
+          <button class="btn-action success" onclick="downloadWord()">&#128196; Word (.doc)</button>
+          <button class="btn-action" onclick="downloadPDF()">&#128196; PDF drucken</button>
+          <button class="btn-action reset" onclick="reset()">&#8635; Neuer Bericht</button>
+        </div>
+      </div>
+    </div>
+    <div class="nav" style="margin-top:4px">
+      <button class="btn" onclick="goTo(7)">&#8592; Zur&uuml;ck</button>
+      <div></div>
+    </div>
+  </div>
+</div>
+
+<!-- API Key Modal -->
+<div class="modal-bg" id="key-modal">
+  <div class="modal">
+    <h2>&#128273; Anthropic API-Key</h2>
+    <p>Den Key findest du unter <strong>console.anthropic.com</strong> &rarr; API Keys. Er wird nur lokal in diesem Browser gespeichert.</p>
+    <input type="password" id="key-input" placeholder="sk-ant-...">
+    <div class="modal-btns">
+      <button class="btn" onclick="hideKeyModal()">Abbrechen</button>
+      <button class="btn btn-primary" onclick="saveKey()">Speichern</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let currentStep = 0;
+const STEPS = 9;
+let chips = {auftrag_art:[],bereiche:[],methoden:[],ergebnis:[],dringlichkeit:[],empfehlung:[]};
+let generatedText = '';
+
+function goTo(n){
+  document.getElementById('s'+currentStep).classList.remove('active');
+  document.getElementById('s'+n).classList.add('active');
+  // progress
+  for(let i=0;i<8;i++){
+    const seg = document.getElementById('seg'+i);
+    const lbl = document.getElementById('lbl'+i);
+    seg.className = 'bar-seg';
+    lbl.className = 'progress-label';
+    if(i < n){ seg.classList.add('done'); }
+    else if(i === n){ seg.classList.add('active'); lbl.classList.add('active'); }
+  }
+  currentStep = n;
+  window.scrollTo(0,0);
+}
+
+function toggleChip(el, group){
+  el.classList.toggle('selected');
+  const val = el.textContent.trim();
+  const arr = chips[group];
+  const idx = arr.indexOf(val);
+  if(idx>-1) arr.splice(idx,1); else arr.push(val);
+}
+
+function selectSingle(el, group){
+  el.closest('.chips').querySelectorAll('.chip').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+  chips[group] = [el.textContent.trim()];
+}
+
+function v(id){ return (document.getElementById(id)||{}).value||''; }
+
+function addBild(){
+  const wrap = document.getElementById('bildtitel-wrap');
+  const count = wrap.querySelectorAll('.bildtitel-row').length + 1;
+  const row = document.createElement('div');
+  row.className = 'bildtitel-row';
+  row.innerHTML = `<input type="text" placeholder="Bild ${count}: Beschreibung..." class="bildtitel-input"><button class="btn-remove" onclick="removeBild(this)">&#215;</button>`;
+  wrap.appendChild(row);
+}
+
+function removeBild(btn){
+  const wrap = document.getElementById('bildtitel-wrap');
+  if(wrap.querySelectorAll('.bildtitel-row').length > 1){
+    btn.parentElement.remove();
+  }
+}
+
+function getBildtitel(){
+  return Array.from(document.querySelectorAll('.bildtitel-input'))
+    .map(i=>i.value.trim()).filter(Boolean);
+}
+
+function showKeyModal(){
+  const stored = localStorage.getItem('sd_api_key')||'';
+  document.getElementById('key-input').value = stored;
+  document.getElementById('key-modal').classList.add('show');
+}
+function hideKeyModal(){ document.getElementById('key-modal').classList.remove('show'); }
+function saveKey(){
+  const k = document.getElementById('key-input').value.trim();
+  if(k) localStorage.setItem('sd_api_key', k);
+  hideKeyModal();
+}
+
+async function generate(){
+  const apiKey = localStorage.getItem('sd_api_key');
+  if(!apiKey){
+    showKeyModal();
+    return;
+  }
+  goTo(8);
+  document.getElementById('loading').style.display='block';
+  document.getElementById('result-wrap').style.display='none';
+  document.getElementById('error-box').style.display='none';
+
+  const bilder = getBildtitel();
+  const bildList = bilder.length > 0
+    ? bilder.map(b=>`• ${b}`).join('\n')
+    : '• Fotodokumentation liegt vor';
+
+  const kontaktTyp = v('kontakt_typ') || 'Eigentümer';
+
+  const prompt = `Erstelle einen vollständigen professionellen Leckageortungsbericht für SanTech Devey UG.
+Nutze NUR die angegebenen Informationen. Erfinde keine Daten. Fachsprachlich, präzise, vollständige Sätze.
+
+EINSATZDATEN:
+Objekt: ${v('strasse')}, ${v('ort')}
+Datum: ${v('datum')}
+Bereich: ${v('bereich')}
+${kontaktTyp}: ${v('kontakt_name')}
+Auftraggeber: ${v('auftraggeber')}
+Auftragsnummer: ${v('auftrag')}
+Auftragsart: ${chips.auftrag_art.join(', ')}
+
+ANLASS / SCHADENSMELDUNG (Stichwörter): ${v('anlass')}
+
+SCHADENSBILD (Stichwörter): ${v('schadensbild')}
+Betroffene Bereiche: ${chips.bereiche.join(', ')}
+Weitere Auffälligkeiten: ${v('schadensbild2')}
+
+UNTERSUCHUNGSMETHODEN: ${chips.methoden.join(', ')}
+Details: ${v('methoden_detail')}
+
+TECHNISCHE FESTSTELLUNG:
+Ergebnis: ${chips.ergebnis.join('')}
+Feststellung/Ursache (Stichwörter): ${v('feststellung')}
+Messergebnisse: ${v('messwerte')||'keine Messung durchgeführt'}
+
+BEWERTUNG / URSACHE (Stichwörter): ${v('bewertung')}
+Dringlichkeit: ${chips.dringlichkeit.join('')}
+
+EMPFOHLENE MASSNAHMEN: ${chips.empfehlung.join(', ')}
+Weitere Empfehlungen: ${v('empfehlung_frei')}
+
+FOTODOKUMENTATION:
+${bildList}
+
+Schreibe den Bericht EXAKT in diesem Format:
+
+Leckageortungsbericht
+
+1. Objekt / Einsatzdaten
+Objekt: [Adresse]
+Datum des Einsatzes: [Datum]
+Bereich: [Bereich]
+${kontaktTyp}: [Name]${v('auftraggeber') ? '\nAuftraggeber: [Auftraggeber]' : ''}${v('auftrag') ? '\nAuftragsnummer: [Nummer]' : ''}
+
+2. Anlass / Schadensmeldung
+[2-3 vollständige Sätze aus den Stichwörtern. Was wurde gemeldet, wer hat beauftragt.]
+
+3. Schadensbild vor Ort
+[2-4 vollständige Sätze. Was wurde vorgefunden, betroffene Bereiche, sichtbare Schäden.]
+
+4. Durchgeführte Untersuchungen
+[Einleitungssatz zur Vorgehensweise, dann Aufzählung der Methoden mit Details als zusammenhängender Fließtext oder Aufzählung.]
+
+5. Technische Feststellungen
+[2-4 vollständige Sätze. Konkrete Feststellungen, Leckageort, Ursache.]
+
+6. Bewertung / wahrscheinliche Ursache
+[2-3 Sätze. Ursachenanalyse, Zusammenhang zum Schaden, Dringlichkeit.]
+
+7. Empfohlene Maßnahmen
+[Aufzählung der Maßnahmen als vollständige Sätze oder Stichpunkte mit •]
+
+8. Fotodokumentation / Bildnachweise
+${bildList}`;
+
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version':'2023-06-01'
+      },
+      body: JSON.stringify({
+        model:'claude-opus-4-5',
+        max_tokens:1500,
+        system:'Du bist Techniker der SanTech Devey UG (haftungsbeschränkt), Köln, spezialisiert auf Leckageortung und Bautrocknung. Schreibe Berichte auf Basis der angegebenen Informationen – fachsprachlich, präzise, professionell. Kein Gruß. Keine Floskeln. Keine erfundenen Daten.',
+        messages:[{role:'user',content:prompt}]
+      })
+    });
+
+    if(!resp.ok){
+      const err = await resp.json();
+      throw new Error(err.error?.message || 'API-Fehler '+resp.status);
+    }
+
+    const json = await resp.json();
+    generatedText = json.content[0].text;
+    document.getElementById('result-text').textContent = generatedText;
+    document.getElementById('loading').style.display='none';
+    document.getElementById('result-wrap').style.display='block';
+
+  } catch(e){
+    document.getElementById('loading').style.display='none';
+    document.getElementById('error-box').style.display='block';
+    document.getElementById('error-box').innerHTML =
+      '<strong>Fehler:</strong> ' + e.message +
+      '<br><br>Bitte API-Key prüfen (oben rechts &#128273;) und sicherstellen, dass du eine aktive Internetverbindung hast.';
+  }
+}
+
+function copyText(){
+  navigator.clipboard.writeText(generatedText).then(()=>{
+    const btn = event.target;
+    const orig = btn.textContent;
+    btn.textContent = '✓ Kopiert!';
+    setTimeout(()=>btn.textContent=orig, 2000);
+  }).catch(()=>{
+    const ta = document.createElement('textarea');
+    ta.value = generatedText;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+  });
+}
+
+function downloadWord(){
+  const lines = generatedText.split('\n');
+  let html = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word"><head><meta charset="utf-8"><style>';
+  html += 'body{font-family:Arial,sans-serif;font-size:11pt;margin:0}';
+  html += 'h1{font-size:14pt;font-weight:bold;margin-bottom:6pt}';
+  html += 'h2{font-size:11pt;font-weight:bold;margin-top:14pt;margin-bottom:4pt}';
+  html += 'p{margin:3pt 0;line-height:1.5}';
+  html += '.footer{font-size:8pt;color:#666;border-top:1pt solid #ccc;margin-top:20pt;padding-top:6pt}';
+  html += '</style></head><body>';
+  html += '<h1>Leckageortungsbericht</h1>';
+  lines.forEach(l=>{
+    const trimmed = l.trim();
+    if(!trimmed){ html+='<p>&nbsp;</p>'; return; }
+    if(/^\d+\.\s/.test(trimmed) && trimmed.length < 60){ html+=`<h2>${trimmed}</h2>`; }
+    else if(trimmed.startsWith('•') || trimmed.startsWith('-')){ html+=`<p style="margin-left:1cm">${trimmed}</p>`; }
+    else{ html+=`<p>${trimmed}</p>`; }
+  });
+  html += '<div class="footer">SanTech Devey UG (haftungsbeschr&auml;nkt) &bull; Sitz: K&ouml;ln &bull; Gesch&auml;ftsf&uuml;hrer: Kevin Devey<br>';
+  html += 'HRB 126239 &bull; Amtsgericht K&ouml;ln &bull; Telefon: 0178&nbsp;/&nbsp;559&nbsp;78&nbsp;86 &bull; info@santechdevey.de &bull; www.santechdevey.de</div>';
+  html += '</body></html>';
+  const blob = new Blob(['\ufeff'+html],{type:'application/msword'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  const datum = v('datum')||new Date().toISOString().slice(0,10);
+  const adresse = (v('strasse')||'Bericht').replace(/\s/g,'-');
+  a.download = `Leckageortungsbericht_${adresse}_${datum}.doc`;
+  a.click();
+}
+
+function downloadPDF(){
+  const w = window.open('','_blank','width=800,height=900');
+  if(!w){ alert('Popup wurde blockiert. Bitte Popups für diese Seite erlauben.'); return; }
+  const datum = v('datum')||'';
+  w.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>Leckageortungsbericht</title>
+  <style>
+    body{font-family:Arial,sans-serif;font-size:11pt;padding:2cm;max-width:21cm;margin:0 auto;color:#1a1a1a}
+    h1{font-size:14pt;font-weight:bold;margin-bottom:16pt}
+    h2{font-size:11pt;font-weight:bold;margin-top:14pt;margin-bottom:4pt}
+    p{margin:3pt 0;line-height:1.55}
+    .indent{margin-left:1cm}
+    .footer{font-size:8pt;color:#666;border-top:1pt solid #ccc;margin-top:24pt;padding-top:8pt}
+    @media print{body{padding:1.5cm}}
+  </style></head><body>`);
+  w.document.write('<h1>Leckageortungsbericht</h1>');
+  const lines = generatedText.split('\n');
+  lines.forEach(l=>{
+    const t = l.trim();
+    if(!t){ w.document.write('<p>&nbsp;</p>'); return; }
+    if(/^\d+\.\s/.test(t) && t.length<60){ w.document.write(`<h2>${t}</h2>`); }
+    else if(t.startsWith('•')||t.startsWith('-')){ w.document.write(`<p class="indent">${t}</p>`); }
+    else{ w.document.write(`<p>${t}</p>`); }
+  });
+  w.document.write(`<div class="footer">SanTech Devey UG (haftungsbeschr&auml;nkt) &bull; Sitz: K&ouml;ln &bull; Gesch&auml;ftsf&uuml;hrer: Kevin Devey<br>HRB 126239 &bull; Amtsgericht K&ouml;ln &bull; Telefon: 0178&nbsp;/&nbsp;559&nbsp;78&nbsp;86 &bull; info@santechdevey.de &bull; www.santechdevey.de</div>`);
+  w.document.write('</body></html>');
+  w.document.close();
+  w.onload = ()=>{ setTimeout(()=>w.print(), 300); };
+}
+
+function reset(){
+  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('selected'));
+  Object.keys(chips).forEach(k=>chips[k]=[]);
+  document.querySelectorAll('input[type=text],input[type=date],textarea').forEach(el=>el.value='');
+  generatedText = '';
+  // Reset bildtitel to 2 rows
+  const wrap = document.getElementById('bildtitel-wrap');
+  wrap.innerHTML = `
+    <div class="bildtitel-row"><input type="text" placeholder="Bild 1: z.B. Kontroll&ouml;ffnung..." class="bildtitel-input"><button class="btn-remove" onclick="removeBild(this)">&#215;</button></div>
+    <div class="bildtitel-row"><input type="text" placeholder="Bild 2: z.B. Ge&ouml;ffneter Wandbereich..." class="bildtitel-input"><button class="btn-remove" onclick="removeBild(this)">&#215;</button></div>`;
+  goTo(0);
+}
+
+// Datum vorausfüllen
+document.getElementById('datum').valueAsDate = new Date();
+</script>
+</body>
+</html>

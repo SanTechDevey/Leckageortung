@@ -8,989 +8,839 @@
 <title>Leckageortungsbericht – SanTech Devey</title>
 <style>
 :root {
-  --primary: #1D3557;
-  --primary-light: #2d4f7c;
-  --accent: #8B806E;
-  --bg: #f4f6f9;
-  --white: #ffffff;
-  --text: #1a1a2e;
-  --text-light: #5a6a7a;
-  --border: #dde2ea;
-  --success: #27ae60;
-  --radius: 12px;
-  --shadow: 0 2px 12px rgba(29,53,87,0.09);
+  --primary:#1D3557; --primary-light:#2d4f7c; --accent:#8B806E;
+  --bg:#f4f6f9; --white:#fff; --text:#1a1a2e; --text-light:#5a6a7a;
+  --border:#dde2ea; --success:#27ae60; --radius:12px;
+  --shadow:0 2px 12px rgba(29,53,87,0.09);
 }
-* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; font-size: 16px; }
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:16px}
 
-/* HEADER */
-.app-header { background: var(--primary); color: white; padding: 13px 16px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,0.2); }
-.header-logo { display: flex; align-items: center; gap: 10px; }
-.header-title { font-size: 15px; font-weight: 700; line-height: 1.2; }
-.header-sub { font-size: 11px; opacity: 0.7; }
-.header-btn { background: rgba(255,255,255,0.15); border: none; color: white; padding: 7px 13px; border-radius: 8px; font-size: 13px; cursor: pointer; font-weight: 600; }
+/* ── APP HEADER ── */
+.app-header{background:var(--primary);color:white;padding:13px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,0.2)}
+.hlogo{display:flex;align-items:center;gap:10px}
+.hlogo-icon{width:34px;height:34px;background:rgba(255,255,255,0.18);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:900;color:white}
+.htitle{font-size:15px;font-weight:700;line-height:1.2}
+.hsub{font-size:11px;opacity:.7}
+.hbtn{background:rgba(255,255,255,0.15);border:none;color:white;padding:7px 13px;border-radius:8px;font-size:13px;cursor:pointer;font-weight:600}
 
-/* PROGRESS */
-.progress-wrap { background: var(--primary); padding: 0 16px 14px; display: none; }
-.progress-bar { background: rgba(255,255,255,0.2); border-radius: 999px; height: 5px; overflow: hidden; }
-.progress-fill { background: #fff; height: 100%; border-radius: 999px; transition: width 0.35s ease; }
-.progress-label { color: rgba(255,255,255,0.75); font-size: 11px; margin-top: 5px; display: flex; justify-content: space-between; }
+/* ── PROGRESS ── */
+.prog-wrap{background:var(--primary);padding:0 16px 13px;display:none}
+.prog-bar{background:rgba(255,255,255,0.2);border-radius:999px;height:5px;overflow:hidden}
+.prog-fill{background:#fff;height:100%;border-radius:999px;transition:width .35s ease}
+.prog-lbl{color:rgba(255,255,255,0.75);font-size:11px;margin-top:5px;display:flex;justify-content:space-between}
 
-/* MAIN */
-.main { padding: 16px 14px 90px; max-width: 680px; margin: 0 auto; }
-.screen { display: none; }
-.screen.active { display: block; }
+/* ── MAIN ── */
+.main{padding:16px 14px 90px;max-width:680px;margin:0 auto}
+.screen{display:none}.screen.active{display:block}
 
-/* SECTION HEADER */
-.section-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
-.section-icon { width: 42px; height: 42px; background: var(--primary); border-radius: 11px; display: flex; align-items: center; justify-content: center; font-size: 19px; flex-shrink: 0; }
-.section-title { font-size: 19px; font-weight: 700; color: var(--primary); }
-.section-subtitle { font-size: 12px; color: var(--text-light); margin-top: 2px; }
+/* ── SECTION HEADER ── */
+.sec-hdr{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.sec-icon{width:42px;height:42px;background:var(--primary);border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
+.sec-title{font-size:19px;font-weight:700;color:var(--primary)}
+.sec-sub{font-size:12px;color:var(--text-light);margin-top:2px}
 
-/* CARD */
-.card { background: var(--white); border-radius: var(--radius); padding: 14px; margin-bottom: 12px; box-shadow: var(--shadow); border: 1px solid var(--border); }
-.card-label { font-size: 11px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; }
+/* ── CARD ── */
+.card{background:var(--white);border-radius:var(--radius);padding:14px;margin-bottom:12px;box-shadow:var(--shadow);border:1px solid var(--border)}
+.clabel{font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px}
 
-/* INPUTS */
-input[type="text"], input[type="date"], input[type="tel"], select, textarea {
-  width: 100%; padding: 12px 13px; border: 1.5px solid var(--border); border-radius: 9px; font-size: 15px; color: var(--text); background: var(--bg); outline: none; transition: border-color 0.2s; font-family: inherit; -webkit-appearance: none;
-}
-input:focus, select:focus, textarea:focus { border-color: var(--primary); background: white; }
-textarea { resize: vertical; min-height: 80px; }
-.input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.input-group { margin-bottom: 11px; }
-.input-group:last-child { margin-bottom: 0; }
-.input-group label { display: block; font-size: 12px; font-weight: 600; color: var(--text-light); margin-bottom: 5px; }
+/* ── INPUTS ── */
+input[type=text],input[type=date],input[type=tel],select,textarea{width:100%;padding:12px 13px;border:1.5px solid var(--border);border-radius:9px;font-size:15px;color:var(--text);background:var(--bg);outline:none;transition:border-color .2s;font-family:inherit;-webkit-appearance:none}
+input:focus,select:focus,textarea:focus{border-color:var(--primary);background:white}
+textarea{resize:vertical;min-height:78px}
+.irow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ig{margin-bottom:11px}.ig:last-child{margin-bottom:0}
+.ig label{display:block;font-size:12px;font-weight:600;color:var(--text-light);margin-bottom:5px}
 
-/* CHIPS */
-.chip-group { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 12px; }
-.chip { padding: 7px 13px; border-radius: 999px; border: 1.5px solid var(--border); background: var(--bg); font-size: 13px; color: var(--text); cursor: pointer; user-select: none; transition: all 0.15s; font-weight: 500; }
-.chip:active { transform: scale(0.96); }
-.chip.selected { background: var(--primary); border-color: var(--primary); color: white; }
+/* ── CHIPS ── */
+.chip-group{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:12px}
+.chip{padding:7px 13px;border-radius:999px;border:1.5px solid var(--border);background:var(--bg);font-size:13px;color:var(--text);cursor:pointer;user-select:none;transition:all .15s;font-weight:500}
+.chip:active{transform:scale(.96)}
+.chip.on{background:var(--primary);border-color:var(--primary);color:white}
 
-/* TOGGLE CARDS */
-.toggle-card { display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: var(--bg); border-radius: 9px; border: 1.5px solid var(--border); cursor: pointer; margin-bottom: 7px; transition: all 0.15s; }
-.toggle-card:last-child { margin-bottom: 0; }
-.toggle-card.selected { background: rgba(29,53,87,0.05); border-color: var(--primary); }
-.toggle-card .tc-icon { font-size: 20px; flex-shrink: 0; }
-.toggle-card .tc-text { flex: 1; }
-.toggle-card .tc-name { font-size: 14px; font-weight: 600; }
-.toggle-card .tc-desc { font-size: 11px; color: var(--text-light); margin-top: 1px; }
-.toggle-card .tc-check { width: 21px; height: 21px; border-radius: 6px; border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.15s; font-size: 12px; }
-.toggle-card.selected .tc-check { background: var(--primary); border-color: var(--primary); color: white; }
+/* ── TOGGLE CARDS ── */
+.tc{display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--bg);border-radius:9px;border:1.5px solid var(--border);cursor:pointer;margin-bottom:7px;transition:all .15s}
+.tc:last-child{margin-bottom:0}
+.tc.on{background:rgba(29,53,87,0.05);border-color:var(--primary)}
+.tc-ico{font-size:20px;flex-shrink:0}
+.tc-txt{flex:1}.tc-name{font-size:14px;font-weight:600}
+.tc-desc{font-size:11px;color:var(--text-light);margin-top:1px}
+.tc-chk{width:21px;height:21px;border-radius:6px;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s;font-size:12px}
+.tc.on .tc-chk{background:var(--primary);border-color:var(--primary);color:white}
 
-/* FREITEXT HINWEIS */
-.freitext-label { font-size: 12px; color: var(--text-light); margin-bottom: 6px; font-weight: 600; }
+/* ── CONTACT TYPE ── */
+.ct-row{display:flex;gap:7px;margin-bottom:11px;flex-wrap:wrap}
+.ct-btn{flex:1;min-width:80px;padding:10px 6px;border-radius:8px;border:1.5px solid var(--border);background:var(--bg);text-align:center;font-size:13px;font-weight:600;cursor:pointer;transition:all .15s;color:var(--text)}
+.ct-btn.on{background:var(--primary);border-color:var(--primary);color:white}
 
-/* CONTACT TYPE */
-.contact-type { display: flex; gap: 8px; margin-bottom: 11px; }
-.ct-btn { flex: 1; padding: 10px; border-radius: 8px; border: 1.5px solid var(--border); background: var(--bg); text-align: center; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.15s; color: var(--text); }
-.ct-btn.selected { background: var(--primary); border-color: var(--primary); color: white; }
+/* ── FREITEXT LABEL ── */
+.ftlbl{font-size:12px;color:var(--text-light);margin-bottom:6px;font-weight:600}
 
-/* START SCREEN */
-.start-hero { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%); border-radius: 16px; padding: 26px 22px; color: white; text-align: center; margin-bottom: 16px; box-shadow: 0 4px 20px rgba(29,53,87,0.25); }
-.start-hero .sh-logo { font-size: 48px; margin-bottom: 10px; }
-.start-hero h1 { font-size: 21px; font-weight: 800; margin-bottom: 5px; }
-.start-hero p { font-size: 13px; opacity: 0.85; }
-.start-hero .sh-slogan { margin-top: 12px; font-size: 11px; opacity: 0.65; letter-spacing: 1.5px; text-transform: uppercase; }
-.quick-btn { display: flex; align-items: center; gap: 13px; padding: 15px; background: white; border-radius: 12px; border: 1.5px solid var(--border); cursor: pointer; margin-bottom: 10px; box-shadow: var(--shadow); transition: all 0.15s; }
-.quick-btn:active { transform: scale(0.98); }
-.quick-btn .qb-icon { width: 44px; height: 44px; background: var(--primary); border-radius: 11px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
-.quick-btn .qb-text { flex: 1; }
-.quick-btn .qb-title { font-size: 15px; font-weight: 700; }
-.quick-btn .qb-sub { font-size: 12px; color: var(--text-light); margin-top: 2px; }
-.quick-btn .qb-arrow { font-size: 18px; color: var(--text-light); }
+/* ── PHOTO ── */
+.photo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:10px}
+.pthumb{aspect-ratio:1;border-radius:8px;overflow:hidden;position:relative;border:1px solid var(--border)}
+.pthumb img{width:100%;height:100%;object-fit:cover}
+.pdel{position:absolute;top:3px;right:3px;width:20px;height:20px;background:rgba(231,76,60,.9);border-radius:50%;color:white;font-size:13px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none}
+.padd{aspect-ratio:1;border-radius:8px;border:2px dashed var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;background:var(--bg);gap:3px;font-size:11px;color:var(--text-light);font-weight:600}
+.padd .pai{font-size:24px}
+.cap-list{margin-top:4px}
+.cap-row{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.cap-num{font-size:11px;font-weight:700;color:var(--accent);min-width:44px}
+.cap-row input{flex:1;padding:8px 10px;font-size:13px}
 
-/* NAV */
-.nav-bar { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 10px 14px; display: flex; gap: 9px; box-shadow: 0 -2px 14px rgba(0,0,0,0.09); z-index: 100; }
-.btn { flex: 1; padding: 14px; border-radius: 11px; border: none; font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.15s; font-family: inherit; }
-.btn:active { transform: scale(0.97); }
-.btn-back { background: var(--bg); color: var(--text); flex: 0 0 52px; font-size: 19px; }
-.btn-primary { background: var(--primary); color: white; }
-.btn-success { background: var(--success); color: white; }
+/* ── START SCREEN ── */
+.hero{background:linear-gradient(135deg,var(--primary) 0%,var(--primary-light) 100%);border-radius:16px;padding:26px 22px;color:white;text-align:center;margin-bottom:16px;box-shadow:0 4px 20px rgba(29,53,87,0.25)}
+.hero-ico{font-size:48px;margin-bottom:10px}
+.hero h1{font-size:21px;font-weight:800;margin-bottom:5px}
+.hero p{font-size:13px;opacity:.85}
+.hero-slogan{margin-top:12px;font-size:11px;opacity:.65;letter-spacing:1.5px;text-transform:uppercase}
+.qbtn{display:flex;align-items:center;gap:13px;padding:15px;background:white;border-radius:12px;border:1.5px solid var(--border);cursor:pointer;margin-bottom:10px;box-shadow:var(--shadow);transition:all .15s}
+.qbtn:active{transform:scale(.98)}
+.qbtn-ico{width:44px;height:44px;background:var(--primary);border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.qbtn-txt{flex:1}
+.qbtn-title{font-size:15px;font-weight:700}
+.qbtn-sub{font-size:12px;color:var(--text-light);margin-top:2px}
+.qbtn-arr{font-size:18px;color:var(--text-light)}
 
-/* PHOTO */
-.photo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; margin-bottom: 10px; }
-.photo-thumb { aspect-ratio: 1; border-radius: 8px; overflow: hidden; position: relative; border: 1px solid var(--border); }
-.photo-thumb img { width: 100%; height: 100%; object-fit: cover; }
-.photo-thumb .photo-del { position: absolute; top: 3px; right: 3px; width: 20px; height: 20px; background: rgba(231,76,60,0.9); border-radius: 50%; color: white; font-size: 13px; display: flex; align-items: center; justify-content: center; cursor: pointer; border: none; }
-.photo-add { aspect-ratio: 1; border-radius: 8px; border: 2px dashed var(--border); display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; background: var(--bg); gap: 3px; font-size: 11px; color: var(--text-light); font-weight: 600; }
-.photo-add .pa-icon { font-size: 24px; }
-.photo-caption-list { margin-top: 4px; }
-.photo-caption-item { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; }
-.photo-caption-item .pcap-num { font-size: 11px; font-weight: 700; color: var(--accent); min-width: 42px; }
-.photo-caption-item input { flex: 1; padding: 8px 10px; font-size: 13px; }
+/* ── NAV BAR ── */
+.nav-bar{position:fixed;bottom:0;left:0;right:0;background:white;padding:10px 14px;display:flex;gap:9px;box-shadow:0 -2px 14px rgba(0,0,0,0.09);z-index:100}
+.btn{flex:1;padding:14px;border-radius:11px;border:none;font-size:15px;font-weight:700;cursor:pointer;transition:all .15s;font-family:inherit}
+.btn:active{transform:scale(.97)}
+.btn-back{background:var(--bg);color:var(--text);flex:0 0 52px;font-size:19px}
+.btn-primary{background:var(--primary);color:white}
+.btn-success{background:var(--success);color:white}
 
-/* MODAL */
-.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; display: flex; align-items: flex-end; }
-.modal-overlay.hidden { display: none; }
-.modal-box { background: white; border-radius: 20px 20px 0 0; padding: 22px 18px 36px; width: 100%; max-width: 680px; margin: 0 auto; position: relative; }
-.modal-title { font-size: 17px; font-weight: 700; margin-bottom: 7px; }
-.modal-sub { font-size: 13px; color: var(--text-light); margin-bottom: 14px; }
-.modal-close { position: absolute; top: 16px; right: 18px; font-size: 22px; cursor: pointer; color: var(--text-light); background: none; border: none; }
+/* ── MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;display:flex;align-items:flex-end}
+.modal-overlay.hidden{display:none}
+.modal-box{background:white;border-radius:20px 20px 0 0;padding:22px 18px 36px;width:100%;max-width:680px;margin:0 auto;position:relative}
+.modal-title{font-size:17px;font-weight:700;margin-bottom:7px}
+.modal-sub{font-size:13px;color:var(--text-light);margin-bottom:14px}
+.modal-close{position:absolute;top:16px;right:18px;font-size:22px;cursor:pointer;color:var(--text-light);background:none;border:none}
 
-/* TOAST */
-.toast { position: fixed; bottom: 78px; left: 50%; transform: translateX(-50%); background: var(--primary); color: white; padding: 9px 18px; border-radius: 999px; font-size: 13px; font-weight: 600; z-index: 300; opacity: 0; transition: opacity 0.3s; white-space: nowrap; pointer-events: none; }
-.toast.show { opacity: 1; }
+/* ── TOAST ── */
+.toast{position:fixed;bottom:78px;left:50%;transform:translateX(-50%);background:var(--primary);color:white;padding:9px 18px;border-radius:999px;font-size:13px;font-weight:600;z-index:300;opacity:0;transition:opacity .3s;white-space:nowrap;pointer-events:none}
+.toast.show{opacity:1}
 
-/* RESULT */
-.generating { text-align: center; padding: 40px 20px; color: var(--text-light); }
-.generating .spin { width: 38px; height: 38px; border: 3px solid var(--border); border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 14px; }
-@keyframes spin { to { transform: rotate(360deg); } }
-.export-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin-bottom: 12px; }
-.export-btn { padding: 13px; border-radius: 11px; border: 1.5px solid var(--border); background: white; cursor: pointer; text-align: center; font-size: 13px; font-weight: 700; color: var(--text); display: flex; flex-direction: column; align-items: center; gap: 5px; box-shadow: var(--shadow); transition: all 0.15s; }
-.export-btn:active { background: var(--bg); }
-.export-btn .eb-icon { font-size: 22px; }
+/* ── RESULT SCREEN ── */
+.spin-wrap{text-align:center;padding:40px 20px;color:var(--text-light)}
+.spin{width:38px;height:38px;border:3px solid var(--border);border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 14px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.export-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:12px}
+.ebtn{padding:13px;border-radius:11px;border:1.5px solid var(--border);background:white;cursor:pointer;text-align:center;font-size:13px;font-weight:700;color:var(--text);display:flex;flex-direction:column;align-items:center;gap:5px;box-shadow:var(--shadow);transition:all .15s}
+.ebtn:active{background:var(--bg)}
+.ebtn-ico{font-size:22px}
 
-/* PRINT STYLES */
-@media print {
-  .app-header, .progress-wrap, .nav-bar, .export-grid, .toast, .modal-overlay { display: none !important; }
-  body { background: white; font-size: 11pt; }
-  .main { padding: 0; max-width: 100%; }
-  .screen { display: block !important; }
-  .screen:not(#s9) { display: none !important; }
-  #resultView { display: block !important; }
-  #generatingView { display: none !important; }
-  .result-card { box-shadow: none; border: none; padding: 0; font-size: 11pt; }
-  .print-only { display: block !important; }
-}
-.print-only { display: none; }
+/* ── BERICHT PREVIEW (in App) ── */
+#reportPreview{background:white;border-radius:12px;padding:18px;box-shadow:var(--shadow);border:1px solid var(--border);margin-bottom:12px;font-size:14px;line-height:1.8}
+#reportPreview h1{font-size:18px;font-weight:800;text-decoration:underline;margin-bottom:18px}
+#reportPreview h2{font-size:14px;font-weight:700;margin-top:16px;margin-bottom:6px}
+#reportPreview p{margin-bottom:8px}
+#reportPreview .edit-block{border-radius:6px;padding:6px 8px;margin:-6px -8px;transition:background .15s;outline:none;cursor:text}
+#reportPreview .edit-block:hover{background:#f0f4f8}
+#reportPreview .edit-block:focus{background:#eaf0fb;box-shadow:0 0 0 2px rgba(29,53,87,0.18)}
+.edit-hint{font-size:11px;color:var(--text-light);text-align:center;padding:6px 0 2px;opacity:.7}
+#reportPreview .foto-block{margin-top:10px}
+#reportPreview .foto-block img{max-width:100%;border-radius:6px;margin-top:6px;margin-bottom:4px;display:block}
+#reportPreview .foto-caption{font-weight:700;font-size:13px}
+#reportPreview .foto-desc{font-size:12px;color:#555;font-style:italic;margin-top:4px;line-height:1.5}
 </style>
 </head>
 <body>
 
 <header class="app-header">
-  <div class="header-logo">
-    <div style="width:34px;height:34px;background:rgba(255,255,255,0.2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:white">SD</div>
-    <div>
-      <div class="header-title">SanTech Devey</div>
-      <div class="header-sub">Leckageortungsbericht</div>
-    </div>
+  <div class="hlogo">
+    <div class="hlogo-icon">SD</div>
+    <div><div class="htitle">SanTech Devey</div><div class="hsub">Leckageortungsbericht</div></div>
   </div>
-  <button class="header-btn" onclick="showApiModal()">⚙️ API</button>
+  <button class="hbtn" onclick="showApiModal()">⚙️ API</button>
 </header>
 
-<div class="progress-wrap" id="progressWrap">
-  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
-  <div class="progress-label"><span id="progressStep">Schritt 1 von 8</span><span id="progressPct">0%</span></div>
+<div class="prog-wrap" id="progWrap">
+  <div class="prog-bar"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+  <div class="prog-lbl"><span id="progStep">Schritt 1 von 8</span><span id="progPct">0%</span></div>
 </div>
 
 <main class="main">
 
-<!-- ═══ SCREEN 0 – START ═══ -->
+<!-- ════ S0 START ════ -->
 <div class="screen active" id="s0">
-  <div class="start-hero">
-    <div class="sh-logo">💧</div>
+  <div class="hero">
+    <div class="hero-ico">💧</div>
     <h1>Leckageortungsbericht</h1>
     <p>Professionelle Schadendokumentation<br>direkt vor Ort</p>
-    <div class="sh-slogan">Schnell · Zuverlässig · Fachgerecht</div>
+    <div class="hero-slogan">Schnell · Zuverlässig · Fachgerecht</div>
   </div>
-  <div class="quick-btn" onclick="startNew()">
-    <div class="qb-icon">📋</div>
-    <div class="qb-text"><div class="qb-title">Neuer Bericht</div><div class="qb-sub">Leckageortungsprotokoll erstellen</div></div>
-    <div class="qb-arrow">›</div>
+  <div class="qbtn" onclick="startNew()">
+    <div class="qbtn-ico">📋</div>
+    <div class="qbtn-txt"><div class="qbtn-title">Neuer Bericht</div><div class="qbtn-sub">Leckageortungsprotokoll erstellen</div></div>
+    <div class="qbtn-arr">›</div>
   </div>
-  <div class="quick-btn" onclick="showApiModal()">
-    <div class="qb-icon">🔑</div>
-    <div class="qb-text"><div class="qb-title">API-Key einrichten</div><div class="qb-sub" id="apiStatusText">Noch nicht eingerichtet</div></div>
-    <div class="qb-arrow">›</div>
+  <div class="qbtn" onclick="showApiModal()">
+    <div class="qbtn-ico">🔑</div>
+    <div class="qbtn-txt"><div class="qbtn-title">API-Key einrichten</div><div class="qbtn-sub" id="apiStatusText">Noch nicht eingerichtet</div></div>
+    <div class="qbtn-arr">›</div>
   </div>
   <div class="card">
-    <div class="card-label">Firma</div>
+    <div class="clabel">Firma</div>
     <div style="font-size:13px;line-height:1.8;color:var(--text-light)">
       <strong style="color:var(--text)">SanTech Devey UG (haftungsbeschränkt)</strong><br>
-      HRB 126239 | Amtsgericht Köln<br>
-      📞 0178 / 559 78 86 · 📧 info@santechdevey.de
+      HRB 126239 | Amtsgericht Köln<br>📞 0178 / 559 78 86 · 📧 info@santechdevey.de
     </div>
   </div>
 </div>
 
-<!-- ═══ SCREEN 1 – OBJEKT / EINSATZDATEN ═══ -->
+<!-- ════ S1 OBJEKT ════ -->
 <div class="screen" id="s1">
-  <div class="section-header">
-    <div class="section-icon">🏠</div>
-    <div><div class="section-title">1. Objekt / Einsatzdaten</div><div class="section-subtitle">Adresse, Datum, Kontakt</div></div>
-  </div>
+  <div class="sec-hdr"><div class="sec-icon">🏠</div><div><div class="sec-title">1. Objekt / Einsatzdaten</div><div class="sec-sub">Adresse, Datum, Auftraggeber</div></div></div>
   <div class="card">
-    <div class="card-label">Einsatzdatum</div>
+    <div class="clabel">Einsatzdatum</div>
     <input type="date" id="datum">
   </div>
   <div class="card">
-    <div class="card-label">Objekt (Schadensadresse)</div>
-    <div class="input-group"><label>Straße + Nr.</label><input type="text" id="obj_strasse" placeholder="z.B. Bonner Str. 15"></div>
-    <div class="input-row">
-      <div class="input-group"><label>PLZ</label><input type="text" id="obj_plz" placeholder="50321"></div>
-      <div class="input-group"><label>Ort</label><input type="text" id="obj_ort" placeholder="Köln"></div>
+    <div class="clabel">Objekt (Schadensadresse)</div>
+    <div class="ig"><label>Straße + Nr.</label><input type="text" id="obj_str" placeholder="z.B. Bonner Str. 15"></div>
+    <div class="irow">
+      <div class="ig"><label>PLZ</label><input type="text" id="obj_plz" placeholder="50321"></div>
+      <div class="ig"><label>Ort</label><input type="text" id="obj_ort" placeholder="Brühl"></div>
     </div>
-    <div class="input-group"><label>Bereich / Leitungsart</label><input type="text" id="obj_bereich" placeholder="z.B. Küchenabwasserleitung / Deckenbereich 1. OG"></div>
+    <div class="ig"><label>Bereich / Leitungsart</label><input type="text" id="obj_bereich" placeholder="z.B. Küchenabwasserleitung / Deckenbereich 1. OG bis DG"></div>
   </div>
   <div class="card">
-    <div class="card-label">Auftraggeber</div>
-    <div class="contact-type">
-      <div class="ct-btn selected" id="ct_eigentuemer" onclick="setContactType('eigentuemer')">Eigentümer</div>
-      <div class="ct-btn" id="ct_mieter" onclick="setContactType('mieter')">Mieter</div>
-      <div class="ct-btn" id="ct_verwaltung" onclick="setContactType('verwaltung')">Verwaltung</div>
-      <div class="ct-btn" id="ct_versicherung" onclick="setContactType('versicherung')">Versicherung</div>
+    <div class="clabel">Auftraggeber</div>
+    <div class="ct-row">
+      <div class="ct-btn on" id="ct_e" onclick="setCT('e')">Eigentümer</div>
+      <div class="ct-btn" id="ct_m" onclick="setCT('m')">Mieter</div>
+      <div class="ct-btn" id="ct_v" onclick="setCT('v')">Verwaltung</div>
+      <div class="ct-btn" id="ct_vs" onclick="setCT('vs')">Versicherung</div>
     </div>
-    <div class="input-group"><label>Name</label><input type="text" id="ag_name" placeholder="z.B. Herr Müller"></div>
+    <div class="ig"><label>Name</label><input type="text" id="ag_name" placeholder="z.B. Herr Kaya"></div>
   </div>
   <div class="card">
-    <div class="card-label">Auftragsnummer (optional)</div>
-    <input type="text" id="auftragsnummer" placeholder="z.B. 2026-042">
+    <div class="clabel">Auftragsnummer (optional)</div>
+    <input type="text" id="auftrnr" placeholder="z.B. 2026-042">
   </div>
 </div>
 
-<!-- ═══ SCREEN 2 – ANLASS / SCHADENSMELDUNG ═══ -->
+<!-- ════ S2 ANLASS ════ -->
 <div class="screen" id="s2">
-  <div class="section-header">
-    <div class="section-icon">📢</div>
-    <div><div class="section-title">2. Anlass / Schadensmeldung</div><div class="section-subtitle">Was wurde gemeldet?</div></div>
-  </div>
+  <div class="sec-hdr"><div class="sec-icon">📢</div><div><div class="sec-title">2. Anlass / Schadensmeldung</div><div class="sec-sub">Was wurde gemeldet?</div></div></div>
   <div class="card">
-    <div class="card-label">Gemeldetes Schadensbild (Auswahl)</div>
-    <div class="chip-group" id="chips_anlass">
-      <div class="chip" onclick="toggleChip(this)">Wasseraustritt aus Decke</div>
-      <div class="chip" onclick="toggleChip(this)">Feuchte Wände</div>
-      <div class="chip" onclick="toggleChip(this)">Feuchter Boden</div>
-      <div class="chip" onclick="toggleChip(this)">Schimmelbildung</div>
-      <div class="chip" onclick="toggleChip(this)">Abwasseraustritt</div>
-      <div class="chip" onclick="toggleChip(this)">Erhöhter Wasserverbrauch</div>
-      <div class="chip" onclick="toggleChip(this)">Druckverlust</div>
-      <div class="chip" onclick="toggleChip(this)">Wasserflecken / Verfärbungen</div>
-      <div class="chip" onclick="toggleChip(this)">Geruch</div>
-      <div class="chip" onclick="toggleChip(this)">Leitungswasser tritt aus</div>
+    <div class="clabel">Gemeldetes Schadensbild</div>
+    <div class="chip-group" id="cg_anlass">
+      <div class="chip" onclick="tC(this)">Wasseraustritt aus Decke</div>
+      <div class="chip" onclick="tC(this)">Feuchte Wände</div>
+      <div class="chip" onclick="tC(this)">Feuchter Boden</div>
+      <div class="chip" onclick="tC(this)">Schimmelbildung</div>
+      <div class="chip" onclick="tC(this)">Abwasseraustritt</div>
+      <div class="chip" onclick="tC(this)">Erhöhter Wasserverbrauch</div>
+      <div class="chip" onclick="tC(this)">Druckverlust</div>
+      <div class="chip" onclick="tC(this)">Wasserflecken / Verfärbungen</div>
+      <div class="chip" onclick="tC(this)">Geruch</div>
+      <div class="chip" onclick="tC(this)">Leitungswasser tritt aus</div>
     </div>
-    <div class="freitext-label">Zusätzliche Angaben / Stichworte</div>
-    <textarea id="anlass_text" placeholder="z.B. Wasser tritt aus wenn Waschbecken im DG benutzt wird, seit 3 Tagen bemerkt..."></textarea>
+    <div class="ftlbl">Zusätzliche Angaben</div>
+    <textarea id="t_anlass" placeholder="z.B. Wasser tritt aus wenn Waschbecken im DG benutzt wird, seit 3 Tagen bemerkt..."></textarea>
   </div>
 </div>
 
-<!-- ═══ SCREEN 3 – SCHADENSBILD VOR ORT ═══ -->
+<!-- ════ S3 SCHADENSBILD ════ -->
 <div class="screen" id="s3">
-  <div class="section-header">
-    <div class="section-icon">🔎</div>
-    <div><div class="section-title">3. Schadensbild vor Ort</div><div class="section-subtitle">Was war bei Ankunft sichtbar?</div></div>
-  </div>
+  <div class="sec-hdr"><div class="sec-icon">🔎</div><div><div class="sec-title">3. Schadensbild vor Ort</div><div class="sec-sub">Was war bei Ankunft sichtbar?</div></div></div>
   <div class="card">
-    <div class="card-label">Vorgefundene Situation (Auswahl)</div>
-    <div class="chip-group" id="chips_schadensbild">
-      <div class="chip" onclick="toggleChip(this)">Feuchteauffälligkeit sichtbar</div>
-      <div class="chip" onclick="toggleChip(this)">Aktiver Wasseraustritt</div>
-      <div class="chip" onclick="toggleChip(this)">Verfärbungen / Flecken</div>
-      <div class="chip" onclick="toggleChip(this)">Schimmelbildung</div>
-      <div class="chip" onclick="toggleChip(this)">Abplatzende Farbe / Putz</div>
-      <div class="chip" onclick="toggleChip(this)">Durchfeuchteter Boden</div>
-      <div class="chip" onclick="toggleChip(this)">Feuchte Decke</div>
-      <div class="chip" onclick="toggleChip(this)">Feuchte Wand</div>
-      <div class="chip" onclick="toggleChip(this)">Abwassergeruch</div>
-      <div class="chip" onclick="toggleChip(this)">Holzablage / Möbel betroffen</div>
+    <div class="clabel">Vorgefundene Situation</div>
+    <div class="chip-group" id="cg_sbild">
+      <div class="chip" onclick="tC(this)">Feuchteauffälligkeit sichtbar</div>
+      <div class="chip" onclick="tC(this)">Aktiver Wasseraustritt</div>
+      <div class="chip" onclick="tC(this)">Verfärbungen / Flecken</div>
+      <div class="chip" onclick="tC(this)">Schimmelbildung</div>
+      <div class="chip" onclick="tC(this)">Abplatzende Farbe / Putz</div>
+      <div class="chip" onclick="tC(this)">Feuchte Decke</div>
+      <div class="chip" onclick="tC(this)">Feuchte Wand</div>
+      <div class="chip" onclick="tC(this)">Durchfeuchteter Boden</div>
+      <div class="chip" onclick="tC(this)">Abwassergeruch</div>
+      <div class="chip" onclick="tC(this)">Holzablage / Möbel betroffen</div>
     </div>
-    <div class="card-label" style="margin-top:4px">Betroffener Bereich</div>
-    <div class="chip-group" id="chips_bereich">
-      <div class="chip" onclick="toggleChip(this)">Bad / WC</div>
-      <div class="chip" onclick="toggleChip(this)">Küche</div>
-      <div class="chip" onclick="toggleChip(this)">Wohnzimmer</div>
-      <div class="chip" onclick="toggleChip(this)">Schlafzimmer</div>
-      <div class="chip" onclick="toggleChip(this)">Keller</div>
-      <div class="chip" onclick="toggleChip(this)">Flur</div>
-      <div class="chip" onclick="toggleChip(this)">Heizungsraum</div>
-      <div class="chip" onclick="toggleChip(this)">Schacht / Leitungskanal</div>
-      <div class="chip" onclick="toggleChip(this)">Deckenbereich</div>
-      <div class="chip" onclick="toggleChip(this)">Wandbereich</div>
+    <div class="clabel" style="margin-top:4px">Betroffener Bereich</div>
+    <div class="chip-group" id="cg_bereich">
+      <div class="chip" onclick="tC(this)">Bad / WC</div>
+      <div class="chip" onclick="tC(this)">Küche</div>
+      <div class="chip" onclick="tC(this)">Wohnzimmer</div>
+      <div class="chip" onclick="tC(this)">Schlafzimmer</div>
+      <div class="chip" onclick="tC(this)">Keller</div>
+      <div class="chip" onclick="tC(this)">Flur</div>
+      <div class="chip" onclick="tC(this)">Schacht / Leitungskanal</div>
+      <div class="chip" onclick="tC(this)">Deckenbereich</div>
+      <div class="chip" onclick="tC(this)">Wandbereich</div>
     </div>
-    <div class="freitext-label">Zusätzliche Angaben / Stichworte</div>
-    <textarea id="schadensbild_text" placeholder="z.B. Im Bereich der 1. Etage Feuchte an Decke, Leitungsführung über mehrere Geschosse..."></textarea>
+    <div class="ftlbl">Zusätzliche Angaben</div>
+    <textarea id="t_sbild" placeholder="z.B. Deckendurchbruch im Bereich des Fallstranges stark durchfeuchtet..."></textarea>
   </div>
 </div>
 
-<!-- ═══ SCREEN 4 – DURCHGEFÜHRTE UNTERSUCHUNGEN ═══ -->
+<!-- ════ S4 UNTERSUCHUNGEN ════ -->
 <div class="screen" id="s4">
-  <div class="section-header">
-    <div class="section-icon">🔧</div>
-    <div><div class="section-title">4. Durchgeführte Untersuchungen</div><div class="section-subtitle">Welche Methoden wurden eingesetzt?</div></div>
+  <div class="sec-hdr"><div class="sec-icon">🔧</div><div><div class="sec-title">4. Durchgeführte Untersuchungen</div><div class="sec-sub">Eingesetzte Prüfmethoden</div></div></div>
+  <div class="card">
+    <div class="clabel">Prüfmethoden</div>
+    <div class="tc" onclick="tT(this,'ps')"><div class="tc-ico">👁️</div><div class="tc-txt"><div class="tc-name">Allgemeine Sichtprüfung</div><div class="tc-desc">Visuelle Inspektion der Gegebenheiten vor Ort</div></div><div class="tc-chk"></div></div>
+    <div class="tc" onclick="tT(this,'pf')"><div class="tc-ico">💧</div><div class="tc-txt"><div class="tc-name">Feuchtemessungen</div><div class="tc-desc">Orientierende Feuchtemessungen zur Eingrenzung</div></div><div class="tc-chk"></div></div>
+    <div class="tc" onclick="tT(this,'pk')"><div class="tc-ico">📹</div><div class="tc-txt"><div class="tc-name">Kamerainspektion</div><div class="tc-desc">Kamera in Leitungskanal eingefahren</div></div><div class="tc-chk"></div></div>
+    <div class="tc" onclick="tT(this,'pt')"><div class="tc-ico">🌡️</div><div class="tc-txt"><div class="tc-name">Thermografie</div><div class="tc-desc">Wärmebildkamera zur Temperaturverteilung</div></div><div class="tc-chk"></div></div>
+    <div class="tc" onclick="tT(this,'pd')"><div class="tc-ico">📊</div><div class="tc-txt"><div class="tc-name">Druckprüfung</div><div class="tc-desc">Druckabfall-Test an Leitungen</div></div><div class="tc-chk"></div></div>
+    <div class="tc" onclick="tT(this,'pa')"><div class="tc-ico">🚿</div><div class="tc-txt"><div class="tc-name">Wasser- / Ablaufprüfung</div><div class="tc-desc">Schadensverlauf durch Wasserbelastung nachgestellt</div></div><div class="tc-chk"></div></div>
+    <div class="tc" onclick="tT(this,'po')"><div class="tc-ico">⛏️</div><div class="tc-txt"><div class="tc-name">Wandöffnung / Schacht geöffnet</div><div class="tc-desc">Kontrollöffnung zur Freilegung des Leitungsbereichs</div></div><div class="tc-chk"></div></div>
+    <div class="tc" onclick="tT(this,'ph')"><div class="tc-ico">🏠</div><div class="tc-txt"><div class="tc-name">Dachbereich kontrolliert</div></div><div class="tc-chk"></div></div>
+    <div class="tc" onclick="tT(this,'pq')"><div class="tc-ico">🎧</div><div class="tc-txt"><div class="tc-name">Akustische Ortung</div><div class="tc-desc">Geräuschdetektion von Lecklaufgeräuschen</div></div><div class="tc-chk"></div></div>
+    <div class="tc" onclick="tT(this,'pg')"><div class="tc-ico">💨</div><div class="tc-txt"><div class="tc-name">Tracergas-Verfahren</div><div class="tc-desc">H₂/O₂-Gemisch zur Leckageortung</div></div><div class="tc-chk"></div></div>
   </div>
   <div class="card">
-    <div class="card-label">Prüfmethoden / Maßnahmen vor Ort</div>
-    <div class="toggle-card" onclick="toggleCard(this,'pruef_sicht')">
-      <div class="tc-icon">👁️</div><div class="tc-text"><div class="tc-name">Allgemeine Sichtprüfung</div><div class="tc-desc">Visuelle Inspektion des gesamten Bereichs</div></div>
-      <div class="tc-check"></div>
-    </div>
-    <div class="toggle-card" onclick="toggleCard(this,'pruef_feuchte')">
-      <div class="tc-icon">💧</div><div class="tc-text"><div class="tc-name">Feuchtemessungen</div><div class="tc-desc">Orientierende Feuchtemessungen zur Eingrenzung</div></div>
-      <div class="tc-check"></div>
-    </div>
-    <div class="toggle-card" onclick="toggleCard(this,'pruef_kamera')">
-      <div class="tc-icon">📹</div><div class="tc-text"><div class="tc-name">Kamerainspektion</div><div class="tc-desc">Kamera in Leitungskanal eingefahren</div></div>
-      <div class="tc-check"></div>
-    </div>
-    <div class="toggle-card" onclick="toggleCard(this,'pruef_thermo')">
-      <div class="tc-icon">🌡️</div><div class="tc-text"><div class="tc-name">Thermografie</div><div class="tc-desc">Wärmebildkamera zur Temperaturverteilung</div></div>
-      <div class="tc-check"></div>
-    </div>
-    <div class="toggle-card" onclick="toggleCard(this,'pruef_druck')">
-      <div class="tc-icon">📊</div><div class="tc-text"><div class="tc-name">Druckprüfung</div><div class="tc-desc">Druckabfall-Test an Leitungen</div></div>
-      <div class="tc-check"></div>
-    </div>
-    <div class="toggle-card" onclick="toggleCard(this,'pruef_ablauf')">
-      <div class="tc-icon">🚿</div><div class="tc-text"><div class="tc-name">Wasser-/Ablaufprüfung</div><div class="tc-desc">Schadensverlauf durch Wasserbelastung nachgestellt</div></div>
-      <div class="tc-check"></div>
-    </div>
-    <div class="toggle-card" onclick="toggleCard(this,'pruef_oeffnung')">
-      <div class="tc-icon">⛏️</div><div class="tc-text"><div class="tc-name">Wandöffnung / Schacht geöffnet</div><div class="tc-desc">Kontrollöffnung zur Freilegung des Leitungsbereichs</div></div>
-      <div class="tc-check"></div>
-    </div>
-    <div class="toggle-card" onclick="toggleCard(this,'pruef_dach')">
-      <div class="tc-icon">🏠</div><div class="tc-text"><div class="tc-name">Dachbereich kontrolliert</div><div class="tc-desc">Dach auf mögliche Eintrittsstellen untersucht</div></div>
-      <div class="tc-check"></div>
-    </div>
-    <div class="toggle-card" onclick="toggleCard(this,'pruef_akustik')">
-      <div class="tc-icon">🎧</div><div class="tc-text"><div class="tc-name">Akustische Ortung</div><div class="tc-desc">Geräuschdetektion von Lecklaufgeräuschen</div></div>
-      <div class="tc-check"></div>
-    </div>
-    <div class="toggle-card" onclick="toggleCard(this,'pruef_tracer')">
-      <div class="tc-icon">💨</div><div class="tc-text"><div class="tc-name">Tracergas-Verfahren</div><div class="tc-desc">H₂/O₂-Gemisch zur Leckageortung</div></div>
-      <div class="tc-check"></div>
-    </div>
-  </div>
-  <div class="card">
-    <div class="freitext-label">Zusätzliche Angaben / Ablauf</div>
-    <textarea id="untersuchung_text" placeholder="z.B. Schacht im 3. OG geöffnet, dann im 2. OG weitere Öffnung hergestellt, erneuter Ablauftest..."></textarea>
+    <div class="ftlbl">Ablauf / Zusätzliche Angaben</div>
+    <textarea id="t_unters" placeholder="z.B. Schacht im 3. OG geöffnet, dann im 2. OG weitere Öffnung hergestellt..."></textarea>
   </div>
 </div>
 
-<!-- ═══ SCREEN 5 – TECHNISCHE FESTSTELLUNGEN ═══ -->
+<!-- ════ S5 FESTSTELLUNGEN ════ -->
 <div class="screen" id="s5">
-  <div class="section-header">
-    <div class="section-icon">🎯</div>
-    <div><div class="section-title">5. Technische Feststellungen</div><div class="section-subtitle">Was wurde gefunden?</div></div>
-  </div>
+  <div class="sec-hdr"><div class="sec-icon">🎯</div><div><div class="sec-title">5. Technische Feststellungen</div><div class="sec-sub">Was wurde gefunden?</div></div></div>
   <div class="card">
-    <div class="card-label">Befund (Auswahl)</div>
-    <div class="chip-group" id="chips_befund">
-      <div class="chip" onclick="toggleChip(this)">Bereich trocken</div>
-      <div class="chip" onclick="toggleChip(this)">Bereich durchfeuchtet</div>
-      <div class="chip" onclick="toggleChip(this)">Leckage lokalisiert</div>
-      <div class="chip" onclick="toggleChip(this)">Aktiver Wasseraustritt festgestellt</div>
-      <div class="chip" onclick="toggleChip(this)">Rohrdefekt</div>
-      <div class="chip" onclick="toggleChip(this)">Undichtigkeit am Abzweig</div>
-      <div class="chip" onclick="toggleChip(this)">Defekter Anschlussbogen</div>
-      <div class="chip" onclick="toggleChip(this)">Undichte Verbindung</div>
-      <div class="chip" onclick="toggleChip(this)">Defekte Abdichtung</div>
-      <div class="chip" onclick="toggleChip(this)">Schimmelspuren im Schacht</div>
-      <div class="chip" onclick="toggleChip(this)">Deckendurchbruch durchfeuchtet</div>
-      <div class="chip" onclick="toggleChip(this)">Gussrohr / HT-Rohr Übergang defekt</div>
+    <div class="clabel">Befund</div>
+    <div class="chip-group" id="cg_befund">
+      <div class="chip" onclick="tC(this)">Bereich trocken</div>
+      <div class="chip" onclick="tC(this)">Bereich durchfeuchtet</div>
+      <div class="chip" onclick="tC(this)">Leckage lokalisiert</div>
+      <div class="chip" onclick="tC(this)">Aktiver Wasseraustritt</div>
+      <div class="chip" onclick="tC(this)">Rohrdefekt</div>
+      <div class="chip" onclick="tC(this)">Undichtigkeit am Abzweig</div>
+      <div class="chip" onclick="tC(this)">Defekter Anschlussbogen</div>
+      <div class="chip" onclick="tC(this)">Undichte Verbindung</div>
+      <div class="chip" onclick="tC(this)">Defekte Abdichtung</div>
+      <div class="chip" onclick="tC(this)">Schimmelspuren</div>
+      <div class="chip" onclick="tC(this)">Deckendurchbruch durchfeuchtet</div>
+      <div class="chip" onclick="tC(this)">Gussrohr / HT-Rohr Übergang defekt</div>
     </div>
-    <div class="freitext-label">Technische Details / Stichworte</div>
-    <textarea id="befund_text" placeholder="z.B. Bei Belastungsprüfung trat Abwasser oberhalb Abzweig aus, lief im Schacht bis 2. OG..."></textarea>
+    <div class="ftlbl">Technische Details</div>
+    <textarea id="t_befund" placeholder="z.B. Bei Belastungsprüfung trat Abwasser oberhalb Abzweig aus, lief im Schacht..."></textarea>
   </div>
 </div>
 
-<!-- ═══ SCREEN 6 – BEWERTUNG ═══ -->
+<!-- ════ S6 BEWERTUNG ════ -->
 <div class="screen" id="s6">
-  <div class="section-header">
-    <div class="section-icon">📊</div>
-    <div><div class="section-title">6. Bewertung / wahrsch. Ursache</div><div class="section-subtitle">Schadensursache und Einschätzung</div></div>
-  </div>
+  <div class="sec-hdr"><div class="sec-icon">📊</div><div><div class="sec-title">6. Bewertung / wahrsch. Ursache</div><div class="sec-sub">Ursache und Einschätzung</div></div></div>
   <div class="card">
-    <div class="card-label">Wahrscheinliche Ursache</div>
-    <div class="chip-group" id="chips_ursache">
-      <div class="chip" onclick="toggleChipSingle(this,'ursache')">Defekter Abzweig</div>
-      <div class="chip" onclick="toggleChipSingle(this,'ursache')">Rohrbruch</div>
-      <div class="chip" onclick="toggleChipSingle(this,'ursache')">Defekter Anschlussbogen</div>
-      <div class="chip" onclick="toggleChipSingle(this,'ursache')">Undichte Verbindung</div>
-      <div class="chip" onclick="toggleChipSingle(this,'ursache')">Defekte Fensterabdichtung</div>
-      <div class="chip" onclick="toggleChipSingle(this,'ursache')">Korrosion / Materialermüdung</div>
-      <div class="chip" onclick="toggleChipSingle(this,'ursache')">Baumangel</div>
-      <div class="chip" onclick="toggleChipSingle(this,'ursache')">Kondensation</div>
-      <div class="chip" onclick="toggleChipSingle(this,'ursache')">Kapillarfeuchte</div>
-      <div class="chip" onclick="toggleChipSingle(this,'ursache')">Noch nicht abschließend geklärt</div>
+    <div class="clabel">Wahrscheinliche Ursache</div>
+    <div class="chip-group" id="cg_ursache">
+      <div class="chip" onclick="tCS(this,'u')">Defekter Abzweig</div>
+      <div class="chip" onclick="tCS(this,'u')">Rohrbruch</div>
+      <div class="chip" onclick="tCS(this,'u')">Defekter Anschlussbogen</div>
+      <div class="chip" onclick="tCS(this,'u')">Undichte Verbindung</div>
+      <div class="chip" onclick="tCS(this,'u')">Defekte Fensterabdichtung</div>
+      <div class="chip" onclick="tCS(this,'u')">Korrosion / Materialermüdung</div>
+      <div class="chip" onclick="tCS(this,'u')">Baumangel</div>
+      <div class="chip" onclick="tCS(this,'u')">Kondensation</div>
+      <div class="chip" onclick="tCS(this,'u')">Kapillarfeuchte</div>
+      <div class="chip" onclick="tCS(this,'u')">Noch nicht abschließend geklärt</div>
     </div>
-    <div class="freitext-label">Bewertung / Erläuterung</div>
-    <textarea id="bewertung_text" placeholder="z.B. Leckage trat vermutlich nicht früher auf, da Wohnung leer stand. Nach derzeitiger Feststellung..."></textarea>
+    <div class="ftlbl">Bewertung / Erläuterung</div>
+    <textarea id="t_bewert" placeholder="z.B. Leckage trat vermutlich zuvor nicht in Erscheinung, da Wohnung leer stand..."></textarea>
   </div>
 </div>
 
-<!-- ═══ SCREEN 7 – EMPFOHLENE MASSNAHMEN ═══ -->
+<!-- ════ S7 MASSNAHMEN ════ -->
 <div class="screen" id="s7">
-  <div class="section-header">
-    <div class="section-icon">✅</div>
-    <div><div class="section-title">7. Empfohlene Maßnahmen</div><div class="section-subtitle">Was ist zu veranlassen?</div></div>
+  <div class="sec-hdr"><div class="sec-icon">✅</div><div><div class="sec-title">7. Empfohlene Maßnahmen</div><div class="sec-sub">Was ist zu veranlassen?</div></div></div>
+  <div class="card">
+    <div class="clabel">Maßnahmen</div>
+    <div class="tc" onclick="tT(this,'mf')"><div class="tc-ico">⛏️</div><div class="tc-txt"><div class="tc-name">Bereich freilegen und fachgerecht instand setzen</div></div><div class="tc-chk"></div></div>
+    <div class="tc" onclick="tT(this,'md')"><div class="tc-ico">✔️</div><div class="tc-txt"><div class="tc-name">Erneute Funktions- und Dichtigkeitsprüfung</div><div class="tc-desc">Nach Reparatur durchführen</div></div><div class="tc-chk"></div></div>
+    <div class="tc" onclick="tT(this,'mt')"><div class="tc-ico">💨</div><div class="tc-txt"><div class="tc-name">Technische Trocknungsmaßnahmen einleiten</div><div class="tc-desc">Bautrocknung der betroffenen Bauteile</div></div><div class="tc-chk"></div></div>
+    <div class="tc" onclick="tT(this,'ma')"><div class="tc-ico">🔒</div><div class="tc-txt"><div class="tc-name">Fachgerechte Neuabdichtung vornehmen</div></div><div class="tc-chk"></div></div>
+    <div class="tc" onclick="tT(this,'mh')"><div class="tc-ico">🌡️</div><div class="tc-txt"><div class="tc-name">Fußbodenheizung auf Dichtigkeit prüfen</div></div><div class="tc-chk"></div></div>
+    <div class="tc" onclick="tT(this,'ms')"><div class="tc-ico">🔍</div><div class="tc-txt"><div class="tc-name">Folgeschäden überprüfen</div><div class="tc-desc">Betroffene Bauteile auf weitere Schäden kontrollieren</div></div><div class="tc-chk"></div></div>
+    <div class="tc" onclick="tT(this,'mb')"><div class="tc-ico">👁️</div><div class="tc-txt"><div class="tc-name">Bereich weiter beobachten</div></div><div class="tc-chk"></div></div>
+    <div class="tc" onclick="tT(this,'mv')"><div class="tc-ico">📄</div><div class="tc-txt"><div class="tc-name">Versicherung informieren / Schaden melden</div></div><div class="tc-chk"></div></div>
   </div>
   <div class="card">
-    <div class="card-label">Maßnahmen (Auswahl)</div>
-    <div class="toggle-card" onclick="toggleCard(this,'mass_freilegen')">
-      <div class="tc-icon">⛏️</div><div class="tc-text"><div class="tc-name">Bereich freilegen und instand setzen</div></div>
-      <div class="tc-check"></div>
-    </div>
-    <div class="toggle-card" onclick="toggleCard(this,'mass_dichtpruef')">
-      <div class="tc-icon">✔️</div><div class="tc-text"><div class="tc-name">Erneute Funktions- und Dichtigkeitsprüfung</div><div class="tc-desc">Nach Reparatur</div></div>
-      <div class="tc-check"></div>
-    </div>
-    <div class="toggle-card" onclick="toggleCard(this,'mass_trocknung')">
-      <div class="tc-icon">💨</div><div class="tc-text"><div class="tc-name">Technische Trocknungsmaßnahmen einleiten</div><div class="tc-desc">Bautrocknung der betroffenen Bauteile</div></div>
-      <div class="tc-check"></div>
-    </div>
-    <div class="toggle-card" onclick="toggleCard(this,'mass_abdichten')">
-      <div class="tc-icon">🔒</div><div class="tc-text"><div class="tc-name">Fachgerechte Neuabdichtung</div></div>
-      <div class="tc-check"></div>
-    </div>
-    <div class="toggle-card" onclick="toggleCard(this,'mass_fbh')">
-      <div class="tc-icon">🌡️</div><div class="tc-text"><div class="tc-name">Fußbodenheizung auf Dichtigkeit prüfen</div></div>
-      <div class="tc-check"></div>
-    </div>
-    <div class="toggle-card" onclick="toggleCard(this,'mass_folge')">
-      <div class="tc-icon">🔍</div><div class="tc-text"><div class="tc-name">Folgeschäden überprüfen</div><div class="tc-desc">Betroffene Bauteile auf weitere Schäden kontrollieren</div></div>
-      <div class="tc-check"></div>
-    </div>
-    <div class="toggle-card" onclick="toggleCard(this,'mass_beobachten')">
-      <div class="tc-icon">👁️</div><div class="tc-text"><div class="tc-name">Bereich weiter beobachten</div></div>
-      <div class="tc-check"></div>
-    </div>
-    <div class="toggle-card" onclick="toggleCard(this,'mass_versich')">
-      <div class="tc-icon">📄</div><div class="tc-text"><div class="tc-name">Versicherung informieren / Schaden melden</div></div>
-      <div class="tc-check"></div>
-    </div>
-  </div>
-  <div class="card">
-    <div class="freitext-label">Zusätzliche Hinweise / Empfehlungen</div>
-    <textarea id="massnahmen_text" placeholder="z.B. Abhängig vom Ergebnis der Druckprüfung sind weitere Schritte zu entscheiden..."></textarea>
+    <div class="ftlbl">Zusätzliche Hinweise</div>
+    <textarea id="t_mass" placeholder="z.B. Abhängig vom Ergebnis der Druckprüfung sind weitere Schritte zu entscheiden..."></textarea>
   </div>
 </div>
 
-<!-- ═══ SCREEN 8 – FOTOS ═══ -->
+<!-- ════ S8 FOTOS ════ -->
 <div class="screen" id="s8">
-  <div class="section-header">
-    <div class="section-icon">📷</div>
-    <div><div class="section-title">8. Fotodokumentation</div><div class="section-subtitle">Fotos aufnehmen und beschriften</div></div>
-  </div>
+  <div class="sec-hdr"><div class="sec-icon">📷</div><div><div class="sec-title">8. Fotodokumentation</div><div class="sec-sub">Fotos aufnehmen und beschriften</div></div></div>
   <div class="card">
-    <div class="card-label">Fotos hinzufügen</div>
+    <div class="clabel">Fotos (Kamera oder Galerie)</div>
     <div class="photo-grid" id="photoGrid">
-      <div class="photo-add" onclick="document.getElementById('photoInput').click()">
-        <div class="pa-icon">📸</div><div>Foto</div>
-      </div>
+      <div class="padd" onclick="document.getElementById('photoIn').click()"><div class="pai">📸</div><div>Foto</div></div>
     </div>
-    <input type="file" id="photoInput" accept="image/*" capture="environment" multiple style="display:none" onchange="addPhotos(event)">
-    <div class="photo-caption-list" id="captionList"></div>
+    <input type="file" id="photoIn" accept="image/*" capture="environment" multiple style="display:none" onchange="addPhotos(event)">
+    <div class="cap-list" id="capList"></div>
   </div>
   <div class="card">
-    <div class="card-label">Techniker</div>
-    <div class="input-group"><label>Name</label><input type="text" id="techniker_name" value="Kevin Devey"></div>
+    <div class="clabel">Techniker</div>
+    <input type="text" id="techniker" value="Kevin Devey">
   </div>
-  <div class="card" style="background:var(--primary);border:none">
-    <div style="color:white;font-size:13px;opacity:0.85;margin-bottom:8px">Alle Angaben vollständig? Bericht wird per KI in deinen Berichtsstil formuliert.</div>
-    <button onclick="generateReport()" style="width:100%;padding:15px;border-radius:10px;border:none;background:white;color:var(--primary);font-size:16px;font-weight:800;cursor:pointer">
-      ⚡ Bericht erstellen
-    </button>
+  <div class="card" style="background:var(--primary);border:none;text-align:center">
+    <div style="color:white;font-size:13px;opacity:.85;margin-bottom:10px">Alle Angaben vollständig? KI formuliert Bericht in deinem Stil.</div>
+    <button onclick="generateReport()" style="width:100%;padding:15px;border-radius:10px;border:none;background:white;color:var(--primary);font-size:16px;font-weight:800;cursor:pointer">⚡ Bericht erstellen</button>
   </div>
 </div>
 
-<!-- ═══ SCREEN 9 – ERGEBNIS ═══ -->
+<!-- ════ S9 ERGEBNIS ════ -->
 <div class="screen" id="s9">
-  <div class="section-header">
-    <div class="section-icon">📄</div>
-    <div><div class="section-title">Fertiger Bericht</div><div class="section-subtitle">Bereit zum Exportieren</div></div>
-  </div>
-  <div id="generatingView" class="generating">
-    <div class="spin"></div>
-    <div style="font-weight:600;margin-bottom:5px">Bericht wird formuliert...</div>
-    <div style="font-size:13px">KI schreibt im SanTech-Devey-Stil</div>
-  </div>
+  <div class="sec-hdr"><div class="sec-icon">📄</div><div><div class="sec-title">Fertiger Bericht</div><div class="sec-sub">Bereit zum Exportieren</div></div></div>
+  <div id="spinView" class="spin-wrap"><div class="spin"></div><div style="font-weight:600;margin-bottom:5px">Bericht wird formuliert...</div><div style="font-size:13px">KI schreibt im SanTech-Devey-Stil</div></div>
   <div id="resultView" style="display:none">
     <div class="export-grid">
-      <div class="export-btn" onclick="copyReport()"><div class="eb-icon">📋</div><div>Kopieren</div></div>
-      <div class="export-btn" onclick="printReport()"><div class="eb-icon">🖨️</div><div>Drucken / PDF</div></div>
-      <div class="export-btn" onclick="downloadWord()"><div class="eb-icon">📝</div><div>Word (.doc)</div></div>
-      <div class="export-btn" onclick="shareReport()"><div class="eb-icon">📤</div><div>Teilen</div></div>
+      <div class="ebtn" onclick="doPDF()"><div class="ebtn-ico">🖨️</div><div>PDF / Drucken</div></div>
+      <div class="ebtn" onclick="doCopy()"><div class="ebtn-ico">📋</div><div>Kopieren</div></div>
+      <div class="ebtn" onclick="doWord()"><div class="ebtn-ico">📝</div><div>Word (.doc)</div></div>
+      <div class="ebtn" onclick="doShare()"><div class="ebtn-ico">📤</div><div>Teilen</div></div>
     </div>
-    <div id="reportContent" style="background:white;border-radius:12px;padding:18px;box-shadow:var(--shadow);border:1px solid var(--border);font-size:14px;line-height:1.8;white-space:pre-wrap;margin-bottom:12px"></div>
-    <button onclick="resetAll()" style="width:100%;padding:13px;border-radius:11px;border:1.5px solid var(--border);background:var(--bg);font-size:14px;font-weight:700;cursor:pointer;color:var(--text)">
-      🔄 Neuen Bericht erstellen
-    </button>
+    <div id="reportPreview"></div>
+    <button onclick="showScreen(8)" style="width:100%;padding:13px;border-radius:11px;border:1.5px solid var(--primary);background:var(--bg);font-size:14px;font-weight:700;cursor:pointer;color:var(--primary);margin-bottom:10px">✏️ Bericht bearbeiten</button>
+    <button onclick="resetAll()" style="width:100%;padding:13px;border-radius:11px;border:1.5px solid var(--border);background:var(--bg);font-size:14px;font-weight:700;cursor:pointer;color:var(--text)">🔄 Neuen Bericht erstellen</button>
   </div>
 </div>
 
 </main>
 
-<!-- NAV BAR -->
 <div class="nav-bar" id="navBar" style="display:none">
   <button class="btn btn-back" id="btnBack" onclick="goBack()">←</button>
   <button class="btn btn-primary" id="btnNext" onclick="goNext()">Weiter →</button>
 </div>
 
-<!-- API MODAL -->
-<div class="modal-overlay hidden" id="apiModal" onclick="closeApiModal(event)">
+<div class="modal-overlay hidden" id="apiModal" onclick="closeModal(event)">
   <div class="modal-box">
-    <button class="modal-close" onclick="hideApiModal()">✕</button>
+    <button class="modal-close" onclick="hideModal()">✕</button>
     <div class="modal-title">🔑 Anthropic API-Key</div>
-    <div class="modal-sub">Wird nur lokal in deinem Browser gespeichert.</div>
-    <div class="input-group"><input type="password" id="apiKeyInput" placeholder="sk-ant-..."></div>
-    <button class="btn btn-primary" style="width:100%;flex:none" onclick="saveApiKey()">Speichern</button>
+    <div class="modal-sub">Wird nur lokal in deinem Browser gespeichert und niemals übertragen.</div>
+    <div class="ig"><input type="password" id="apiIn" placeholder="sk-ant-..."></div>
+    <button class="btn btn-primary" style="width:100%;flex:none" onclick="saveKey()">Speichern</button>
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
-<!-- PRINT TEMPLATE (hidden, used for print/PDF) -->
-<div id="printTemplate" style="display:none"></div>
-
 <script>
-// ── STATE ──────────────────────────────────────────────────────
-let currentScreen = 0;
-const totalSteps = 8;
-let selectedCards = {};
-let photos = [];
-let photoCaptions = [];
-let contactType = 'eigentuemer';
-let reportText = '';
+// ── LOGO SVG (für Wasserzeichen) ─────────────────────────────
+const LOGO_SVG = `<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M436.762 130.52L255.514 46.04L73.7539 130.52L255.514 23L332.826 68.863V51.16H355.866V82.5308L436.762 130.52Z" fill="#1D3557"/><path d="M106.008 124.888L91.6725 131.544V279.512H214.552L206.872 276.952L199.192 273.368L191.512 269.272L184.344 265.176H106.008V124.888Z" fill="#1D3557"/><path d="M408.107 124.376L422.938 131.032V279H300.057L305.884 276.44L312.769 273.368L320.184 269.272L327.6 264.664H408.107V124.376Z" fill="#1D3557"/><path d="M246.809 193.505C242.337 183.674 234.118 165.229 217.664 125.108C180.499 215.732 184.807 195.765 180.498 215.732C177.805 235.7 197.138 251.061 217.664 251.061C228.979 251.06 239.765 246.392 246.809 238.858V286.642C179.933 282.418 127 226.841 127 158.9C127 139.247 131.431 120.629 139.346 103.988L246.809 58.8398V193.505ZM371.121 104.979C378.743 121.367 383 139.636 383 158.9C383 205.641 357.946 246.528 320.536 268.87V83.3691L371.121 104.979Z" fill="#1D3557"/><path d="M370.646 104.262C378.566 120.907 383 139.531 383 159.191C383 206.357 357.488 247.563 319.512 269.767V82.4873L370.646 104.262Z" fill="#8B806E"/><path d="M270.508 187.794L284.696 198.802L298.886 187.794V167.955C307.548 173.017 313.368 182.413 313.368 193.17C313.368 203.865 307.613 213.214 299.032 218.296V280.024L292.376 282.584L285.208 284.632L278.04 285.656L270.36 286.168V218.877C261.216 213.949 255 204.286 255 193.17C255 181.994 261.283 172.288 270.508 167.385V187.794ZM313.368 80.6084V163.469H305.176V77.0137L313.368 80.6084ZM298.009 73.8682V145.366H289.816V70.2725L298.009 73.8682ZM282.649 67.1279V136.847H274.457V63.5322L282.649 67.1279ZM267.29 60.3867V117.679H259.098V56.792L267.29 60.3867Z" fill="#8B806E"/><path d="M194.586 214.487V223.021L197 230.656L200.62 236.045L205.85 240.087" stroke="#1D3557" stroke-width="7.168" stroke-linecap="round"/><path d="M484.856 470.972L498.713 488.472H14L27.8564 470.972L14.792 454.472H497.921L484.856 470.972Z" fill="#8B806E"/><path d="M414.748 325.642H426.088V374.642H414.748V325.642ZM392.488 374.642H381.148V325.642H392.488V374.642ZM415.588 354.552H391.648V344.962H415.588V354.552Z" fill="#1D3557"/><path d="M353.26 375.482C349.48 375.482 345.957 374.875 342.69 373.662C339.47 372.402 336.67 370.628 334.29 368.342C331.91 366.055 330.043 363.372 328.69 360.292C327.383 357.212 326.73 353.828 326.73 350.142C326.73 346.455 327.383 343.072 328.69 339.992C330.043 336.912 331.91 334.228 334.29 331.942C336.717 329.655 339.54 327.905 342.76 326.692C345.98 325.432 349.503 324.802 353.33 324.802C357.577 324.802 361.403 325.548 364.81 327.042C368.263 328.488 371.157 330.635 373.49 333.482L366.21 340.202C364.53 338.288 362.663 336.865 360.61 335.932C358.557 334.952 356.317 334.462 353.89 334.462C351.603 334.462 349.503 334.835 347.59 335.582C345.677 336.328 344.02 337.402 342.62 338.802C341.22 340.202 340.123 341.858 339.33 343.772C338.583 345.685 338.21 347.808 338.21 350.142C338.21 352.475 338.583 354.598 339.33 356.512C340.123 358.425 341.22 360.082 342.62 361.482C344.02 362.882 345.677 363.955 347.59 364.702C349.503 365.448 351.603 365.822 353.89 365.822C356.317 365.822 358.557 365.355 360.61 364.422C362.663 363.442 364.53 361.972 366.21 360.012L373.49 366.732C371.157 369.578 368.263 371.748 364.81 373.242C361.403 374.735 357.553 375.482 353.26 375.482Z" fill="#1D3557"/><path d="M293.277 345.382H316.867V354.202H293.277V345.382ZM294.117 365.542H320.787V374.642H282.847V325.642H319.877V334.742H294.117V365.542Z" fill="#1D3557"/><path d="M249.726 374.642V334.882H234.046V325.642H276.746V334.882H261.066V374.642H249.726Z" fill="#1D3557"/><path d="M183.042 374.642V325.642H192.422L221.332 360.922H216.782V325.642H227.982V374.642H218.672L189.692 339.362H194.242V374.642H183.042Z" fill="#1D3557"/><path d="M123.009 374.642L144.849 325.642H156.049L177.959 374.642H166.059L148.139 331.382H152.619L134.629 374.642H123.009ZM133.929 364.142L136.939 355.532H162.139L165.219 364.142H133.929Z" fill="#1D3557"/><path d="M100.91 375.482C96.99 375.482 93.2333 374.968 89.64 373.942C86.0467 372.868 83.1533 371.492 80.96 369.812L84.81 361.272C86.91 362.765 89.3833 364.002 92.23 364.982C95.1233 365.915 98.04 366.382 100.98 366.382C103.22 366.382 105.017 366.172 106.37 365.752C107.77 365.285 108.797 364.655 109.45 363.862C110.103 363.068 110.43 362.158 110.43 361.132C110.43 359.825 109.917 358.798 108.89 358.052C107.863 357.258 106.51 356.628 104.83 356.162C103.15 355.648 101.283 355.182 99.23 354.762C97.2233 354.295 95.1933 353.735 93.14 353.082C91.1333 352.428 89.29 351.588 87.61 350.562C85.93 349.535 84.5533 348.182 83.48 346.502C82.4533 344.822 81.94 342.675 81.94 340.062C81.94 337.262 82.6867 334.718 84.18 332.432C85.72 330.098 88.0067 328.255 91.04 326.902C94.12 325.502 97.97 324.802 102.59 324.802C105.67 324.802 108.703 325.175 111.69 325.922C114.677 326.622 117.313 327.695 119.6 329.142L116.1 337.752C113.813 336.445 111.527 335.488 109.24 334.882C106.953 334.228 104.713 333.902 102.52 333.902C100.327 333.902 98.53 334.158 97.13 334.672C95.73 335.185 94.7267 335.862 94.12 336.702C93.5133 337.495 93.21 338.428 93.21 339.502C93.21 340.762 93.7233 341.788 94.75 342.582C95.7767 343.328 97.13 343.935 98.81 344.402C100.49 344.868 102.333 345.335 104.34 345.802C106.393 346.268 108.423 346.805 110.43 347.412C112.483 348.018 114.35 348.835 116.03 349.862C117.71 350.888 119.063 352.242 120.09 353.922C121.163 355.602 121.7 357.725 121.7 360.292C121.7 363.045 120.93 365.565 119.39 367.852C117.85 370.138 115.54 371.982 112.46 373.382C109.427 374.782 105.577 375.482 100.91 375.482Z" fill="#1D3557"/><path d="M323.985 430.642V417.242L325.135 420.342L310.085 395.642H315.435L328.085 416.492H325.185L337.885 395.642H342.835L327.835 420.342L328.935 417.242V430.642H323.985Z" fill="#1D3557"/><path d="M286.98 410.742H304.98V414.992H286.98V410.742ZM287.43 426.292H307.83V430.642H282.43V395.642H307.13V399.992H287.43V426.292Z" fill="#1D3557"/><path d="M257.666 430.642L242.266 395.642H247.666L261.816 427.942H258.716L272.966 395.642H277.966L262.616 430.642H257.666Z" fill="#1D3557"/><path d="M219.109 410.742H237.109V414.992H219.109V410.742ZM219.559 426.292H239.959V430.642H214.559V395.642H239.259V399.992H219.559V426.292Z" fill="#1D3557"/><path d="M173.25 430.642V395.642H188C191.733 395.642 195.017 396.375 197.85 397.842C200.717 399.308 202.933 401.358 204.5 403.992C206.1 406.625 206.9 409.675 206.9 413.142C206.9 416.608 206.1 419.658 204.5 422.292C202.933 424.925 200.717 426.975 197.85 428.442C195.017 429.908 191.733 430.642 188 430.642H173.25ZM178.25 426.292H187.7C190.6 426.292 193.1 425.742 195.2 424.642C197.333 423.542 198.983 422.008 200.15 420.042C201.317 418.042 201.9 415.742 201.9 413.142C201.9 410.508 201.317 408.208 200.15 406.242C198.983 404.275 197.333 402.742 195.2 401.642C193.1 400.542 190.6 399.992 187.7 399.992H178.25V426.292Z" fill="#1D3557"/><path d="M92.7907 480.472V459.472H96.6907V477.172H107.671V480.472H92.7907Z" fill="white"/><path d="M36.39 469.132H46.86V472.432H36.39V469.132ZM36.72 480.472H32.82V459.472H48.15V462.742H36.72V480.472Z" fill="white"/></svg>`;
 
-// ── INIT ──────────────────────────────────────────────────────
+const FOOTER_TEXT = `SanTech Devey UG (haftungsbeschränkt) | Sitz: Köln | Geschäftsführer: Kevin Devey\nHRB 126239 | Amtsgericht Köln\nTelefon: 0178 / 559 78 86 | E-Mail: info@santechdevey.de | www.santechdevey.de`;
+
+// ── STATE ────────────────────────────────────────────────────
+let cur = 0, cards = {}, photos = [], caps = [], ct = 'e';
+let reportSections = null;
+
+// ── INIT ─────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('datum').value = new Date().toISOString().split('T')[0];
-  const key = localStorage.getItem('sd_api_key');
-  document.getElementById('apiStatusText').textContent = key ? '✅ API-Key hinterlegt' : '❌ Noch nicht eingerichtet';
+  const k = localStorage.getItem('sd_key');
+  document.getElementById('apiStatusText').textContent = k ? '✅ API-Key hinterlegt' : '❌ Noch nicht eingerichtet';
 });
 
-// ── NAVIGATION ────────────────────────────────────────────────
+// ── NAVIGATION ───────────────────────────────────────────────
 function showScreen(n) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById('s' + n).classList.add('active');
-  currentScreen = n;
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-
+  document.getElementById('s'+n).classList.add('active');
+  cur = n; window.scrollTo({top:0,behavior:'smooth'});
   const nav = document.getElementById('navBar');
-  const prog = document.getElementById('progressWrap');
-
-  if (n === 0 || n === 9) {
-    nav.style.display = 'none';
-    prog.style.display = 'none';
-  } else {
-    nav.style.display = 'flex';
-    prog.style.display = 'block';
-    document.getElementById('btnBack').style.display = n === 1 ? 'none' : 'block';
-    const btnNext = document.getElementById('btnNext');
-    if (n === 8) {
-      btnNext.textContent = '⚡ Bericht erstellen';
-      btnNext.className = 'btn btn-success';
-    } else {
-      btnNext.textContent = 'Weiter →';
-      btnNext.className = 'btn btn-primary';
-    }
-    const pct = Math.round(((n - 1) / totalSteps) * 100);
-    document.getElementById('progressFill').style.width = pct + '%';
-    document.getElementById('progressStep').textContent = 'Schritt ' + n + ' von ' + totalSteps;
-    document.getElementById('progressPct').textContent = pct + '%';
-  }
+  const pw = document.getElementById('progWrap');
+  if (n===0||n===9) { nav.style.display='none'; pw.style.display='none'; return; }
+  nav.style.display='flex'; pw.style.display='block';
+  document.getElementById('btnBack').style.display = n===1?'none':'block';
+  const bn = document.getElementById('btnNext');
+  if (n===8) { bn.textContent='⚡ Bericht erstellen'; bn.className='btn btn-success'; }
+  else { bn.textContent='Weiter →'; bn.className='btn btn-primary'; }
+  const pct = Math.round(((n-1)/8)*100);
+  document.getElementById('progFill').style.width=pct+'%';
+  document.getElementById('progStep').textContent='Schritt '+n+' von 8';
+  document.getElementById('progPct').textContent=pct+'%';
 }
-
 function startNew() { showScreen(1); }
-function goNext() { currentScreen === 8 ? generateReport() : showScreen(currentScreen + 1); }
-function goBack() { currentScreen > 1 ? showScreen(currentScreen - 1) : showScreen(0); }
+function goNext() { cur===8 ? generateReport() : showScreen(cur+1); }
+function goBack() { cur>1 ? showScreen(cur-1) : showScreen(0); }
 
-// ── CHIPS ─────────────────────────────────────────────────────
-function toggleChip(el) { el.classList.toggle('selected'); }
-function toggleChipSingle(el, group) {
-  el.closest('.chip-group').querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
-  el.classList.add('selected');
-}
-function getChips(id) {
-  const el = document.getElementById(id);
-  if (!el) return [];
-  return [...el.querySelectorAll('.chip.selected')].map(c => c.textContent.trim());
-}
+// ── CHIPS ────────────────────────────────────────────────────
+function tC(el) { el.classList.toggle('on'); }
+function tCS(el, grp) { el.closest('.chip-group').querySelectorAll('.chip').forEach(c=>c.classList.remove('on')); el.classList.add('on'); }
+function gC(id) { const el=document.getElementById(id); return el?[...el.querySelectorAll('.chip.on')].map(c=>c.textContent.trim()):[] }
 
-// ── TOGGLE CARDS ──────────────────────────────────────────────
-function toggleCard(el, key) {
-  el.classList.toggle('selected');
-  selectedCards[key] = el.classList.contains('selected');
-  el.querySelector('.tc-check').textContent = selectedCards[key] ? '✓' : '';
+// ── TOGGLE CARDS ─────────────────────────────────────────────
+function tT(el, key) {
+  el.classList.toggle('on'); cards[key]=el.classList.contains('on');
+  el.querySelector('.tc-chk').textContent = cards[key]?'✓':'';
 }
 
-// ── CONTACT TYPE ──────────────────────────────────────────────
-function setContactType(type) {
-  contactType = type;
-  ['eigentuemer','mieter','verwaltung','versicherung'].forEach(t => {
-    document.getElementById('ct_' + t).className = 'ct-btn' + (t === type ? ' selected' : '');
-  });
+// ── CONTACT TYPE ─────────────────────────────────────────────
+function setCT(t) {
+  ct=t; ['e','m','v','vs'].forEach(x=>document.getElementById('ct_'+x).className='ct-btn'+(x===t?' on':''));
 }
+function ctLabel() { return {e:'Eigentümer',m:'Mieter',v:'Hausverwaltung',vs:'Versicherung'}[ct]||'Auftraggeber'; }
 
-// ── PHOTOS ────────────────────────────────────────────────────
-function addPhotos(event) {
-  const files = [...event.target.files];
-  files.forEach(file => {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const idx = photos.length;
-      photos.push({ url: e.target.result, name: file.name });
-      photoCaptions.push('');
-      renderPhotos();
-    };
-    reader.readAsDataURL(file);
-  });
-  event.target.value = '';
+// ── PHOTOS ───────────────────────────────────────────────────
+function addPhotos(ev) {
+  [...ev.target.files].forEach(f => {
+    const r=new FileReader(); r.onload=e=>{ photos.push(e.target.result); caps.push(''); renderPhotos(); }; r.readAsDataURL(f);
+  }); ev.target.value='';
 }
-
 function renderPhotos() {
-  const grid = document.getElementById('photoGrid');
-  grid.innerHTML = '';
-  photos.forEach((p, i) => {
-    const div = document.createElement('div');
-    div.className = 'photo-thumb';
-    div.innerHTML = `<img src="${p.url}" alt="Bild ${i+1}"><button class="photo-del" onclick="deletePhoto(${i})">×</button>`;
-    grid.appendChild(div);
-  });
-  const add = document.createElement('div');
-  add.className = 'photo-add';
-  add.innerHTML = '<div class="pa-icon">📸</div><div>Foto</div>';
-  add.onclick = () => document.getElementById('photoInput').click();
-  grid.appendChild(add);
-
-  // Captions
-  const cl = document.getElementById('captionList');
-  cl.innerHTML = '';
-  photos.forEach((p, i) => {
-    const row = document.createElement('div');
-    row.className = 'photo-caption-item';
-    row.innerHTML = `<span class="pcap-num">Bild ${i+1}:</span><input type="text" placeholder="Bildbeschriftung..." value="${photoCaptions[i] || ''}" oninput="photoCaptions[${i}] = this.value">`;
-    cl.appendChild(row);
-  });
+  const g=document.getElementById('photoGrid'); g.innerHTML='';
+  photos.forEach((p,i)=>{ const d=document.createElement('div'); d.className='pthumb'; d.innerHTML=`<img src="${p}"><button class="pdel" onclick="delPhoto(${i})">×</button>`; g.appendChild(d); });
+  const a=document.createElement('div'); a.className='padd'; a.innerHTML='<div class="pai">📸</div><div>Foto</div>'; a.onclick=()=>document.getElementById('photoIn').click(); g.appendChild(a);
+  const cl=document.getElementById('capList'); cl.innerHTML='';
+  photos.forEach((p,i)=>{ const r=document.createElement('div'); r.className='cap-row'; r.innerHTML=`<span class="cap-num">Bild ${i+1}:</span><input type="text" placeholder="Bildbeschriftung..." value="${caps[i]||''}" oninput="caps[${i}]=this.value">`; cl.appendChild(r); });
 }
+function delPhoto(i) { photos.splice(i,1); caps.splice(i,1); renderPhotos(); }
 
-function deletePhoto(i) {
-  photos.splice(i, 1);
-  photoCaptions.splice(i, 1);
-  renderPhotos();
-}
-
-// ── API KEY ───────────────────────────────────────────────────
+// ── API KEY ──────────────────────────────────────────────────
 function showApiModal() { document.getElementById('apiModal').classList.remove('hidden'); }
-function hideApiModal() { document.getElementById('apiModal').classList.add('hidden'); }
-function closeApiModal(e) { if (e.target === document.getElementById('apiModal')) hideApiModal(); }
-function saveApiKey() {
-  const key = document.getElementById('apiKeyInput').value.trim();
-  if (!key) return showToast('Bitte API-Key eingeben');
-  localStorage.setItem('sd_api_key', key);
-  hideApiModal();
-  document.getElementById('apiStatusText').textContent = '✅ API-Key hinterlegt';
-  showToast('API-Key gespeichert ✓');
+function hideModal() { document.getElementById('apiModal').classList.add('hidden'); }
+function closeModal(e) { if(e.target===document.getElementById('apiModal')) hideModal(); }
+function saveKey() {
+  const k=document.getElementById('apiIn').value.trim(); if(!k) return toast('Bitte API-Key eingeben');
+  localStorage.setItem('sd_key',k); hideModal();
+  document.getElementById('apiStatusText').textContent='✅ API-Key hinterlegt'; toast('API-Key gespeichert ✓');
 }
 
-// ── COLLECT DATA ──────────────────────────────────────────────
-function collectData() {
-  const methods = [];
-  if (selectedCards['pruef_sicht']) methods.push('allgemeine Sichtprüfung');
-  if (selectedCards['pruef_feuchte']) methods.push('orientierende Feuchtemessungen');
-  if (selectedCards['pruef_kamera']) methods.push('Kamerainspektion');
-  if (selectedCards['pruef_thermo']) methods.push('Thermografie (Wärmebildkamera)');
-  if (selectedCards['pruef_druck']) methods.push('Druckprüfung');
-  if (selectedCards['pruef_ablauf']) methods.push('Wasser- und Ablaufprüfung');
-  if (selectedCards['pruef_oeffnung']) methods.push('Kontrollöffnung / Wandöffnung');
-  if (selectedCards['pruef_dach']) methods.push('Kontrolle Dachbereich');
-  if (selectedCards['pruef_akustik']) methods.push('akustische Ortung');
-  if (selectedCards['pruef_tracer']) methods.push('Tracergas-Verfahren');
+// ── COLLECT DATA ─────────────────────────────────────────────
+function getData() {
+  const ms=[];
+  if(cards.ps) ms.push('eine allgemeine Sichtprüfung der Gegebenheiten vor Ort');
+  if(cards.pf) ms.push('orientierende Feuchtemessungen zur Eingrenzung des betroffenen Bereichs');
+  if(cards.pk) ms.push('eine Kamerainspektion des Leitungsbereichs');
+  if(cards.pt) ms.push('eine Thermografieuntersuchung mittels Wärmebildkamera');
+  if(cards.pd) ms.push('eine Druckprüfung an den betroffenen Leitungen');
+  if(cards.pa) ms.push('Wasser- und Ablaufprüfungen zur Nachstellung des Schadensverlaufs');
+  if(cards.po) ms.push('eine Kontrollöffnung im Wand- bzw. Schachtbereich');
+  if(cards.ph) ms.push('eine Kontrolle des Dachbereichs auf mögliche Eintrittsstellen');
+  if(cards.pq) ms.push('eine akustische Ortung mittels Geräuschdetektion');
+  if(cards.pg) ms.push('das Tracergas-Verfahren (H₂/O₂-Gemisch)');
 
-  const massnahmen = [];
-  if (selectedCards['mass_freilegen']) massnahmen.push('betroffenen Bereich freilegen und fachgerecht instand setzen');
-  if (selectedCards['mass_dichtpruef']) massnahmen.push('erneute Funktions- und Dichtigkeitsprüfung nach Reparatur durchführen');
-  if (selectedCards['mass_trocknung']) massnahmen.push('technische Trocknungsmaßnahmen einleiten');
-  if (selectedCards['mass_abdichten']) massnahmen.push('fachgerechte Neuabdichtung vornehmen');
-  if (selectedCards['mass_fbh']) massnahmen.push('Fußbodenheizung auf Dichtigkeit prüfen');
-  if (selectedCards['mass_folge']) massnahmen.push('betroffene Bauteile auf Folgeschäden überprüfen');
-  if (selectedCards['mass_beobachten']) massnahmen.push('Bereich weiter beobachten');
-  if (selectedCards['mass_versich']) massnahmen.push('Versicherung informieren und Schaden melden');
-
-  const ctLabel = { eigentuemer: 'Eigentümer', mieter: 'Mieter', verwaltung: 'Hausverwaltung', versicherung: 'Versicherung' }[contactType] || 'Auftraggeber';
+  const ma=[];
+  if(cards.mf) ma.push('den betroffenen Bereich fachgerecht freizulegen und instand zu setzen');
+  if(cards.md) ma.push('nach der Reparatur eine erneute Funktions- und Dichtigkeitsprüfung durchzuführen');
+  if(cards.mt) ma.push('technische Trocknungsmaßnahmen einzuleiten');
+  if(cards.ma) ma.push('eine fachgerechte Neuabdichtung vorzunehmen');
+  if(cards.mh) ma.push('die Fußbodenheizung auf Dichtigkeit zu prüfen');
+  if(cards.ms) ma.push('die betroffenen Bauteile auf Folgeschäden zu überprüfen');
+  if(cards.mb) ma.push('den Bereich weiter zu beobachten');
+  if(cards.mv) ma.push('die Versicherung zu informieren und den Schaden zu melden');
 
   return {
     datum: document.getElementById('datum').value,
-    obj_strasse: document.getElementById('obj_strasse').value,
-    obj_plz: document.getElementById('obj_plz').value,
-    obj_ort: document.getElementById('obj_ort').value,
-    obj_bereich: document.getElementById('obj_bereich').value,
-    ag_typ: ctLabel,
-    ag_name: document.getElementById('ag_name').value,
-    auftragsnummer: document.getElementById('auftragsnummer').value,
-    anlass_chips: getChips('chips_anlass').join(', '),
-    anlass_text: document.getElementById('anlass_text').value,
-    schadensbild_chips: getChips('chips_schadensbild').join(', '),
-    bereich_chips: getChips('chips_bereich').join(', '),
-    schadensbild_text: document.getElementById('schadensbild_text').value,
-    methoden: methods.join(', '),
-    untersuchung_text: document.getElementById('untersuchung_text').value,
-    befund_chips: getChips('chips_befund').join(', '),
-    befund_text: document.getElementById('befund_text').value,
-    ursache: getChips('chips_ursache')[0] || '',
-    bewertung_text: document.getElementById('bewertung_text').value,
-    massnahmen: massnahmen.join('; '),
-    massnahmen_text: document.getElementById('massnahmen_text').value,
-    techniker: document.getElementById('techniker_name').value,
-    fotoanzahl: photos.length,
-    fotoCaptions: photoCaptions,
+    obj: [document.getElementById('obj_str').value, document.getElementById('obj_plz').value, document.getElementById('obj_ort').value].filter(Boolean).join(', '),
+    bereich: document.getElementById('obj_bereich').value,
+    ag_typ: ctLabel(), ag_name: document.getElementById('ag_name').value,
+    auftrnr: document.getElementById('auftrnr').value,
+    anlass: gC('cg_anlass'), t_anlass: document.getElementById('t_anlass').value,
+    sbild: gC('cg_sbild'), bereich_raum: gC('cg_bereich'), t_sbild: document.getElementById('t_sbild').value,
+    methoden: ms, t_unters: document.getElementById('t_unters').value,
+    befund: gC('cg_befund'), t_befund: document.getElementById('t_befund').value,
+    ursache: gC('cg_ursache')[0]||'', t_bewert: document.getElementById('t_bewert').value,
+    massnahmen: ma, t_mass: document.getElementById('t_mass').value,
+    techniker: document.getElementById('techniker').value,
+    fmtDatum: document.getElementById('datum').value ? new Date(document.getElementById('datum').value).toLocaleDateString('de-DE') : ''
   };
 }
 
-// ── GENERATE REPORT ───────────────────────────────────────────
+// ── GENERATE ─────────────────────────────────────────────────
 async function generateReport() {
-  const apiKey = localStorage.getItem('sd_api_key');
-  if (!apiKey) { showApiModal(); showToast('Bitte zuerst API-Key einrichten'); return; }
-
+  const key = localStorage.getItem('sd_key');
+  if(!key) { showApiModal(); toast('Bitte zuerst API-Key einrichten'); return; }
   showScreen(9);
-  document.getElementById('generatingView').style.display = 'block';
-  document.getElementById('resultView').style.display = 'none';
-
-  const d = collectData();
-
+  document.getElementById('spinView').style.display='block';
+  document.getElementById('resultView').style.display='none';
+  const d = getData();
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
-      },
-      body: JSON.stringify({
-        model: 'claude-haiku-4-5-20251001',
-        max_tokens: 2500,
-        messages: [{ role: 'user', content: buildPrompt(d) }]
-      })
+    const content = buildPromptContent(d);
+    const res = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:3000,messages:[{role:'user',content}]})
     });
-
-    if (!res.ok) { const err = await res.json(); throw new Error(err.error?.message || 'API-Fehler'); }
-    const data = await res.json();
-    reportText = data.content[0].text;
-    showResult(reportText);
-  } catch (e) {
-    reportText = buildFallbackReport(d);
-    showResult(reportText);
-    showToast('⚠️ Offline-Bericht erstellt');
+    if(!res.ok){const e=await res.json();throw new Error(e.error?.message||'API-Fehler '+res.status);}
+    const data=await res.json();
+    const txt=data.content[0].text;
+    reportSections = parseAIResponse(txt, d);
+  } catch(e) {
+    console.error('API Fehler:',e);
+    reportSections = buildFallback(d);
+    toast('⚠️ Offline-Bericht erstellt');
   }
+  renderReport(reportSections, d);
+  document.getElementById('spinView').style.display='none';
+  document.getElementById('resultView').style.display='block';
 }
 
-function buildPrompt(d) {
-  const fmtDatum = d.datum ? new Date(d.datum).toLocaleDateString('de-DE') : '';
-  const objekt = `${d.obj_strasse}, ${d.obj_plz} ${d.obj_ort}`.trim().replace(/^,\s*/, '');
+function buildPromptContent(d) {
+  const fotoHinweis = photos.length > 0
+    ? `\n\nEs wurden ${photos.length} Foto(s) beigefügt. Analysiere jedes Bild und beschreibe kurz (1–2 Sätze) was darauf zu erkennen ist, insbesondere Feuchteauffälligkeiten, Schäden oder relevante Befunde. Gib die Bildbeschreibungen als Array im Feld "fotos" zurück.`
+    : '';
 
-  return `Du schreibst einen Leckageortungsbericht für die Firma SanTech Devey UG (haftungsbeschränkt) aus Köln.
+  const textPrompt = `Du schreibst einen Leckageortungsbericht für SanTech Devey UG (haftungsbeschränkt), Köln.
 
-SCHREIBSTIL – SEHR WICHTIG:
-Schreibe EXAKT in diesem Stil (formales Behördendeutsch, Passiv, fließender Text, keine Stichpunkte im Bericht):
-- Abschnitt 2 beginnt IMMER mit: "Der Einsatz erfolgte aufgrund einer gemeldeten [Leckage/Feuchteauffälligkeit] im Bereich [...]."
-- Abschnitt 3 beginnt IMMER mit: "Vor Ort zeigte sich im Bereich [...] eine [Feuchteauffälligkeit/...]."
-- Abschnitt 4 beginnt IMMER mit: "Im Rahmen der Untersuchung wurde zunächst eine allgemeine Sichtprüfung [...] durchgeführt."
-- Abschnitt 5 beginnt IMMER mit: "Im Zuge der Prüfung konnte festgestellt werden, dass [...]."
-- Abschnitt 6 beginnt IMMER mit: "Als Ursache wurde eine [Undichtigkeit/...] im Bereich [...] festgestellt. Nach derzeitiger Feststellung [...]."
-- Abschnitt 7 beginnt IMMER mit: "Es wird empfohlen, [...]."
-- Nutze häufig: "Nach derzeitiger Feststellung", "Im weiteren Verlauf der Untersuchung", "Anschließend wurde", "Daraufhin wurde"
+WICHTIG – Schreibe GENAU in diesem formalen Stil:
+- Abschnitt 2 beginnt IMMER: "Der Einsatz erfolgte aufgrund einer gemeldeten [Leckage/Feuchteauffälligkeit] im Bereich [Bereich]."
+- Abschnitt 3 beginnt IMMER: "Vor Ort zeigte sich im Bereich [Raum/Bereich] [Schadensbild]."
+- Abschnitt 4 beginnt IMMER: "Im Rahmen der Untersuchung wurde zunächst [erste Methode] durchgeführt."
+- Abschnitt 5 beginnt IMMER: "Im Zuge der Prüfung konnte festgestellt werden, dass [Befund]."
+- Abschnitt 6 beginnt IMMER: "Als Ursache wurde [Ursache] im Bereich [Lage] festgestellt. Nach derzeitiger Feststellung [...]."
+- Abschnitt 7 beginnt IMMER: "Es wird empfohlen, [erste Maßnahme]."
+- Nutze häufig: "Nach derzeitiger Feststellung", "Im weiteren Verlauf", "Anschließend wurde", "Daraufhin wurde"
+- Schreibe FLIESSTEXT, keine Aufzählungen
+- Jeder Abschnitt 2–3 Sätze${fotoHinweis}
 
-EINGABEDATEN:
-Objekt: ${objekt}
-Datum: ${fmtDatum}
-Bereich: ${d.obj_bereich}
+DATEN:
+Objekt: ${d.obj}
+Datum: ${d.fmtDatum}
+Bereich: ${d.bereich}
 ${d.ag_typ}: ${d.ag_name}
-${d.auftragsnummer ? 'Auftragsnummer: ' + d.auftragsnummer : ''}
 
-Anlass (Stichworte): ${d.anlass_chips}
-Anlass (Zusatz): ${d.anlass_text}
+Anlass: ${d.anlass.join(', ')}${d.t_anlass?'\nZusatz: '+d.t_anlass:''}
+Schadensbild: ${d.sbild.join(', ')}; Bereich: ${d.bereich_raum.join(', ')}${d.t_sbild?'\nZusatz: '+d.t_sbild:''}
+Methoden: ${d.methoden.join(', ')}${d.t_unters?'\nZusatz: '+d.t_unters:''}
+Befund: ${d.befund.join(', ')}${d.t_befund?'\nZusatz: '+d.t_befund:''}
+Ursache: ${d.ursache}${d.t_bewert?'\nZusatz: '+d.t_bewert:''}
+Maßnahmen: ${d.massnahmen.join(', ')}${d.t_mass?'\nZusatz: '+d.t_mass:''}
 
-Schadensbild (Stichworte): ${d.schadensbild_chips}
-Betroffener Bereich: ${d.bereich_chips}
-Schadensbild (Zusatz): ${d.schadensbild_text}
+Gib NUR dieses JSON zurück (kein Text davor/danach):
+{"s2":"...","s3":"...","s4":"...","s5":"...","s6":"...","s7":"..."${photos.length>0?',"fotos":["Bildbeschreibung 1",...]':''}}`;
 
-Untersuchungsmethoden: ${d.methoden}
-Untersuchungsablauf (Zusatz): ${d.untersuchung_text}
+  // Ohne Fotos: einfacher Text-String
+  if (photos.length === 0) return textPrompt;
 
-Befund (Stichworte): ${d.befund_chips}
-Befund (Zusatz): ${d.befund_text}
-
-Ursache: ${d.ursache}
-Bewertung (Zusatz): ${d.bewertung_text}
-
-Maßnahmen: ${d.massnahmen}
-Maßnahmen (Zusatz): ${d.massnahmen_text}
-
-Fotos: ${d.fotoanzahl} Foto(s) beigefügt
-Techniker: ${d.techniker}
-
-Erstelle den vollständigen Bericht mit GENAU dieser Struktur:
-
-Leckageortungsbericht
-
-1. Objekt / Einsatzdaten
-[Objekt: ..., Datum des Einsatzes: ..., Bereich: ..., ${d.ag_typ}: ...]
-
-2. Anlass / Schadensmeldung
-[Fließtext, 2-3 Sätze]
-
-3. Schadensbild vor Ort
-[Fließtext, 2-3 Sätze]
-
-4. Durchgeführte Untersuchungen
-[Fließtext, 3-5 Sätze, alle Methoden erwähnen]
-
-5. Technische Feststellungen
-[Fließtext, 3-4 Sätze]
-
-6. Bewertung / wahrscheinliche Ursache
-[Fließtext, 2-3 Sätze]
-
-7. Empfohlene Maßnahmen
-[Fließtext, 2-4 Sätze, alle Maßnahmen erwähnen]
-
-Gib NUR den Berichtstext aus, keine Erklärungen davor oder danach.`;
+  // Mit Fotos: multimodaler Content-Array
+  const content = [{type:'text', text: textPrompt}];
+  photos.forEach((p, i) => {
+    const mimeMatch = p.match(/^data:([^;]+);base64,/);
+    const mediaType = mimeMatch ? mimeMatch[1] : 'image/jpeg';
+    const base64 = p.replace(/^data:[^;]+;base64,/, '');
+    content.push({
+      type: 'image',
+      source: { type: 'base64', media_type: mediaType, data: base64 }
+    });
+    if (caps[i]) content.push({type:'text', text:`(Bild ${i+1} Beschriftung: ${caps[i]})`});
+  });
+  return content;
 }
 
-function buildFallbackReport(d) {
-  const fmtDatum = d.datum ? new Date(d.datum).toLocaleDateString('de-DE') : '';
-  const objekt = `${d.obj_strasse}, ${d.obj_plz} ${d.obj_ort}`.replace(/^,\s*/, '');
-  const caps = photoCaptions.map((c, i) => `Bild ${i+1}: ${c || '(keine Beschriftung)'}`).join('\n');
-
-  return `Leckageortungsbericht
-
-
-1. Objekt / Einsatzdaten
-
-Objekt: ${objekt}
-Datum des Einsatzes: ${fmtDatum}
-Bereich: ${d.obj_bereich}
-${d.ag_typ}: ${d.ag_name}${d.auftragsnummer ? '\nAuftragsnummer: ' + d.auftragsnummer : ''}
-
-
-2. Anlass / Schadensmeldung
-
-Der Einsatz erfolgte aufgrund einer gemeldeten ${d.anlass_chips || 'Leckage'} im Bereich ${d.obj_bereich || 'des Objekts'}.${d.anlass_text ? ' ' + d.anlass_text : ''}
-
-
-3. Schadensbild vor Ort
-
-Vor Ort zeigte sich im Bereich ${d.bereich_chips || 'des betroffenen Bereichs'} ${d.schadensbild_chips ? 'folgendes Bild: ' + d.schadensbild_chips + '.' : 'eine Feuchteauffälligkeit.'}${d.schadensbild_text ? ' ' + d.schadensbild_text : ''}
-
-
-4. Durchgeführte Untersuchungen
-
-Im Rahmen der Untersuchung wurden folgende Prüfmethoden eingesetzt: ${d.methoden || 'allgemeine Sichtprüfung'}.${d.untersuchung_text ? ' ' + d.untersuchung_text : ''}
-
-
-5. Technische Feststellungen
-
-Im Zuge der Prüfung konnte festgestellt werden, dass ${d.befund_chips || 'der betroffene Bereich auffällig war'}.${d.befund_text ? ' ' + d.befund_text : ''}
-
-
-6. Bewertung / wahrscheinliche Ursache
-
-Als Ursache wurde ${d.ursache ? 'ein(e) ' + d.ursache + ' festgestellt' : 'nach derzeitiger Feststellung folgendes ermittelt'}.${d.bewertung_text ? ' ' + d.bewertung_text : ' Nach derzeitiger Feststellung steht dieser Befund in direktem Zusammenhang mit dem gemeldeten Schaden.'}
-
-
-7. Empfohlene Maßnahmen
-
-Es wird empfohlen, ${d.massnahmen || 'den betroffenen Bereich fachgerecht instand zu setzen'}.${d.massnahmen_text ? ' ' + d.massnahmen_text : ''}
-
-
-8. Fotodokumentation / Bildnachweise
-
-${d.fotoanzahl > 0 ? caps : 'Keine Fotos beigefügt.'}
-
-
-Techniker: ${d.techniker}
-Datum: ${fmtDatum}
-
-Unterschrift: _______________________`;
+function parseAIResponse(txt, d) {
+  try {
+    const m = txt.match(/\{[\s\S]*\}/);
+    if(m) return JSON.parse(m[0]);
+  } catch(e) {}
+  return buildFallback(d);
 }
 
-function showResult(text) {
-  document.getElementById('generatingView').style.display = 'none';
-  document.getElementById('resultView').style.display = 'block';
-  document.getElementById('reportContent').textContent = text;
+function buildFallback(d) {
+  const bereich = d.bereich || '';
+  const bereichIn = bereich ? `im Bereich ${bereich}` : 'im betroffenen Bereich';
+  const bereichDes = bereich ? `des Bereichs ${bereich}` : 'des betroffenen Bereichs';
+  const raum = d.bereich_raum.join(', ') || bereich || 'dem betroffenen Bereich';
+  const raumIn = d.bereich_raum.length ? `im Bereich ${d.bereich_raum.join(' / ')}` : bereichIn;
+  const methoden = d.methoden.length ? d.methoden : ['eine allgemeine Sichtprüfung der Gegebenheiten vor Ort'];
+  const ursache = d.ursache || 'eine Undichtigkeit im Leitungsbereich';
+  const mass = d.massnahmen;
+
+  // Abschnitt 2
+  const s2 = `Der Einsatz erfolgte aufgrund einer gemeldeten Feuchteauffälligkeit ${bereichIn}. Nach Angaben vor Ort lagen entsprechende Feuchteerscheinungen vor, die einer fachgerechten Untersuchung bedurften.${d.t_anlass ? ' ' + d.t_anlass : ''}`;
+
+  // Abschnitt 3
+  let s3 = `Bei der Begehung ${raumIn} zeigten sich deutliche Hinweise auf einen Feuchteschaden. Der betroffene Bereich wies sichtbare Feuchteauffälligkeiten auf, die auf einen aktiven oder zurückliegenden Wasserschaden hindeuten.`;
+  if (d.t_sbild) s3 += ' ' + d.t_sbild;
+
+  // Abschnitt 4
+  let s4 = `Im Rahmen der Untersuchung wurde zunächst ${methoden[0]} durchgeführt.`;
+  if (methoden.length > 1) {
+    const mRest = methoden.slice(1);
+    const mLast = mRest[mRest.length-1];
+    const mBefore = mRest.slice(0,-1);
+    s4 += mBefore.length ? ` Anschließend wurden ${mBefore.join(', ')} sowie ${mLast} vorgenommen.` : ` Anschließend wurde ${mLast} vorgenommen.`;
+  }
+  if (d.t_unters) s4 += ' ' + d.t_unters;
+
+  // Abschnitt 5
+  let s5 = `Im Zuge der Untersuchung konnte ${bereichIn} eine Feuchteauffälligkeit eindeutig lokalisiert werden. Die erhobenen Messwerte und Befunde stehen in direktem Zusammenhang mit dem gemeldeten Schaden und bestätigen das Vorliegen einer Undichtigkeit.`;
+  if (d.t_befund) s5 += ' ' + d.t_befund;
+
+  // Abschnitt 6
+  let s6 = `Als wahrscheinliche Ursache für den Schaden wurde ${bereichIn} eine Undichtigkeit im Leitungs- oder Anschlussbereich festgestellt. Nach derzeitiger Einschätzung steht dieser Befund in direktem Zusammenhang mit dem gemeldeten Wasseraustritt.`;
+  if (d.t_bewert) s6 += ' ' + d.t_bewert;
+
+  // Abschnitt 7 – kein "sowie...sowie"
+  let s7;
+  if (!mass.length) {
+    s7 = `Es wird empfohlen, den betroffenen Bereich fachgerecht freizulegen und instand zu setzen.`;
+  } else if (mass.length === 1) {
+    s7 = `Es wird empfohlen, ${mass[0]}.`;
+  } else {
+    const last = mass[mass.length-1];
+    const rest = mass.slice(0,-1);
+    s7 = `Es wird empfohlen, ${rest.join(', ')} sowie ${last}.`;
+  }
+  if (d.t_mass) s7 += ' ' + d.t_mass;
+
+  return {s2,s3,s4,s5,s6,s7};
 }
 
-// ── EXPORT ────────────────────────────────────────────────────
-function copyReport() {
-  navigator.clipboard.writeText(reportText).then(() => showToast('✓ In Zwischenablage kopiert'));
+// ── RENDER REPORT ─────────────────────────────────────────────
+function renderReport(sec, d) {
+  const obj = d.obj||'–';
+  const fotoHTML = photos.map((p,i)=>{
+    const beschr = sec.fotos && sec.fotos[i] ? `<p class="foto-desc">${sec.fotos[i]}</p>` : '';
+    return `<div class="foto-block"><p class="foto-caption">Bild ${i+1}${caps[i]?' – '+caps[i]:''}</p><img src="${p}" alt="Bild ${i+1}">${beschr}</div>`;
+  }).join('');
+
+  const html = `
+    <p class="edit-hint">✏️ Tippe in einen Abschnitt um ihn zu bearbeiten</p>
+    <h1>Leckageortungsbericht</h1>
+    <h2>1. Objekt / Einsatzdaten</h2>
+    <p id="ep1">Objekt: ${obj}<br>
+    Datum des Einsatzes: ${d.fmtDatum}<br>
+    Bereich: ${d.bereich||'–'}<br>
+    ${d.ag_typ}: ${d.ag_name||'–'}${d.auftrnr?'<br>Auftragsnummer: '+d.auftrnr:''}</p>
+    <h2>2. Anlass / Schadensmeldung</h2><p id="ep2" class="edit-block" contenteditable="true">${sec.s2}</p>
+    <h2>3. Schadensbild vor Ort</h2><p id="ep3" class="edit-block" contenteditable="true">${sec.s3}</p>
+    <h2>4. Durchgeführte Untersuchungen</h2><p id="ep4" class="edit-block" contenteditable="true">${sec.s4}</p>
+    <h2>5. Technische Feststellungen</h2><p id="ep5" class="edit-block" contenteditable="true">${sec.s5}</p>
+    <h2>6. Bewertung / wahrscheinliche Ursache</h2><p id="ep6" class="edit-block" contenteditable="true">${sec.s6}</p>
+    <h2>7. Empfohlene Maßnahmen</h2><p id="ep7" class="edit-block" contenteditable="true">${sec.s7}</p>
+    ${photos.length>0?`<h2>8. Fotodokumentation / Bildnachweise</h2>${fotoHTML}`:''}
+    <p style="margin-top:20px">Techniker: ${d.techniker}<br>
+    Datum: ${d.fmtDatum}</p>
+    <p style="margin-top:12px">Unterschrift: _______________________</p>`;
+
+  document.getElementById('reportPreview').innerHTML = html;
 }
 
-function buildPrintHtml() {
-  const d = collectData();
-  const fmtDatum = d.datum ? new Date(d.datum).toLocaleDateString('de-DE') : '';
-  const firmenkopf = `SanTech Devey UG (haftungsbeschränkt) | Sitz: Köln | Geschäftsführer: Kevin Devey\nHRB 126239 | Amtsgericht Köln\nTelefon: 0178 / 559 78 86 | E-Mail: info@santechdevey.de | www.santechdevey.de`;
+// ── EXPORT FUNCTIONS ─────────────────────────────────────────
+function getEditedSections() {
+  const get = id => { const el = document.getElementById(id); return el ? el.innerText.trim() : null; };
+  return {
+    s2: get('ep2') || (reportSections||{}).s2,
+    s3: get('ep3') || (reportSections||{}).s3,
+    s4: get('ep4') || (reportSections||{}).s4,
+    s5: get('ep5') || (reportSections||{}).s5,
+    s6: get('ep6') || (reportSections||{}).s6,
+    s7: get('ep7') || (reportSections||{}).s7,
+    fotos: (reportSections||{}).fotos
+  };
+}
 
-  const photoHtml = photos.length > 0 ? photos.map((p, i) =>
-    `<div style="margin-bottom:24px">
-      <p style="font-weight:700;font-size:11pt;margin-bottom:8px">Bild ${i+1}: ${photoCaptions[i] || ''}</p>
-      <img src="${p.url}" style="max-width:100%;border-radius:4px">
-    </div>`
-  ).join('') : '<p>Keine Fotos beigefügt.</p>';
+function buildPrintHTML() {
+  const d = getData();
+  const sec = getEditedSections() || buildFallback(d);
+  const obj = d.obj||'–';
 
-  const logo = `<div style="text-align:center;margin:40px 0 20px;opacity:0.12">
-    <svg viewBox="0 0 400 200" width="300" xmlns="http://www.w3.org/2000/svg">
-      <text x="200" y="80" text-anchor="middle" font-size="72" font-weight="900" fill="#1D3557" font-family="Arial">SANTECH</text>
-      <text x="200" y="150" text-anchor="middle" font-size="72" font-weight="900" fill="#1D3557" font-family="Arial">DEVEY</text>
-      <text x="200" y="185" text-anchor="middle" font-size="18" fill="#8B806E" font-family="Arial">Für Leckage &amp; Bautrocknung</text>
-    </svg>
-  </div>`;
+  const fotoHTML = photos.map((p,i)=>{
+    const beschr = sec.fotos && sec.fotos[i] ? `<p style="margin-top:6px;font-size:10pt;color:#333;font-style:italic">${sec.fotos[i]}</p>` : '';
+    return `<div style="margin-bottom:24px;page-break-inside:avoid">
+      <p style="font-weight:700;margin-bottom:6px">Bild ${i+1}${caps[i]?' – '+caps[i]:''}</p>
+      <img src="${p}" style="max-width:100%;max-height:400px;display:block;border-radius:3px">${beschr}
+    </div>`;
+  }).join('');
 
-  const escaped = reportText.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const logoB64 = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(LOGO_SVG);
+  const footer = FOOTER_TEXT.replace(/\n/g,'<br>');
 
   return `<!DOCTYPE html><html lang="de"><head><meta charset="UTF-8">
-  <title>Leckageortungsbericht – SanTech Devey</title>
-  <style>
-    @page { margin: 2cm; }
-    body { font-family: Arial, sans-serif; font-size: 11pt; color: #1a1a1a; max-width: 720px; margin: 0 auto; }
-    .header { font-size: 9pt; color: #555; border-bottom: 1px solid #ccc; padding-bottom: 8px; margin-bottom: 20px; }
-    .footer { font-size: 9pt; color: #555; border-top: 1px solid #ccc; padding-top: 8px; margin-top: 20px; }
-    pre { white-space: pre-wrap; font-family: Arial; font-size: 11pt; line-height: 1.7; }
-    .page-break { page-break-before: always; }
-  </style></head><body>
-  <div class="header">${firmenkopf.replace(/\n/g, '<br>')}</div>
-  <pre>${escaped}</pre>
-  ${photos.length > 0 ? `<div class="page-break"><div class="header">${firmenkopf.replace(/\n/g, '<br>')}</div>${photoHtml}</div>` : ''}
-  <div class="footer">${firmenkopf.replace(/\n/g, '<br>')}</div>
-  ${logo}
-  </body></html>`;
-}
-
-function printReport() {
-  const win = window.open('', '_blank');
-  win.document.write(buildPrintHtml());
-  win.document.close();
-  setTimeout(() => win.print(), 500);
-}
-
-function downloadWord() {
-  const content = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
-  <head><meta charset='utf-8'></head><body>
-  <pre style="font-family:Arial;font-size:11pt;line-height:1.7">${reportText.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</pre>
-  </body></html>`;
-  const blob = new Blob(['﻿', content], { type: 'application/msword' });
-  const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
-  a.download = `Leckageortungsbericht_${new Date().toISOString().split('T')[0]}.doc`;
-  a.click(); URL.revokeObjectURL(a.href);
-}
-
-async function shareReport() {
-  if (navigator.share) {
-    try { await navigator.share({ title: 'Leckageortungsbericht – SanTech Devey', text: reportText }); return; } catch(e) {}
+<title>Leckageortungsbericht</title>
+<style>
+  @page { size: A4; margin: 1.5cm 2cm 4cm; }
+  body { font-family: Arial, Helvetica, sans-serif; font-size: 11pt; color: #1a1a1a; line-height: 1.65; }
+  h1 { font-size: 16pt; font-weight: 700; text-decoration: underline; margin-bottom: 22px; }
+  h2 { font-size: 11pt; font-weight: 700; margin-top: 18px; margin-bottom: 6px; }
+  p { margin-bottom: 8px; }
+  .watermark {
+    position: fixed; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 380px; opacity: 0.08; z-index: -1;
+    pointer-events: none;
   }
-  copyReport();
+  .page-footer {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    font-size: 7.5pt; color: #444; text-align: left;
+    border-top: 0.5pt solid #bbb; padding-top: 5pt; padding-bottom: 4pt;
+    line-height: 1.5; background: white;
+  }
+  .content { padding-bottom: 90pt; }
+</style>
+</head><body>
+<img class="watermark" src="${logoB64}" alt="">
+<div class="page-footer">${footer}</div>
+<div class="content">
+  <h1>Leckageortungsbericht</h1>
+  <h2>1. Objekt / Einsatzdaten</h2>
+  <p>Objekt: ${obj}<br>Datum des Einsatzes: ${d.fmtDatum}<br>Bereich: ${d.bereich||'–'}<br>${d.ag_typ}: ${d.ag_name||'–'}${d.auftrnr?'<br>Auftragsnummer: '+d.auftrnr:''}</p>
+  <h2>2. Anlass / Schadensmeldung</h2><p>${sec.s2}</p>
+  <h2>3. Schadensbild vor Ort</h2><p>${sec.s3}</p>
+  <h2>4. Durchgeführte Untersuchungen</h2><p>${sec.s4}</p>
+  <h2>5. Technische Feststellungen</h2><p>${sec.s5}</p>
+  <h2>6. Bewertung / wahrscheinliche Ursache</h2><p>${sec.s6}</p>
+  <h2>7. Empfohlene Maßnahmen</h2><p>${sec.s7}</p>
+  ${photos.length>0?`<h2>8. Fotodokumentation / Bildnachweise</h2>${fotoHTML}`:''}
+  <p style="margin-top:24px">Techniker: ${d.techniker}<br>Datum: ${d.fmtDatum}</p>
+  <p style="margin-top:14px">Unterschrift: _______________________</p>
+</div>
+</body></html>`;
+}
+
+function doPDF() {
+  const w = window.open('','_blank');
+  if(!w){toast('Popup blockiert – bitte erlauben'); return;}
+  w.document.write(buildPrintHTML());
+  w.document.close();
+  setTimeout(()=>w.print(),600);
+}
+
+function doCopy() {
+  const d = getData(); const sec = getEditedSections()||buildFallback(d);
+  const txt = `Leckageortungsbericht\n\n1. Objekt / Einsatzdaten\nObjekt: ${d.obj}\nDatum des Einsatzes: ${d.fmtDatum}\nBereich: ${d.bereich}\n${d.ag_typ}: ${d.ag_name}${d.auftrnr?'\nAuftragsnummer: '+d.auftrnr:''}\n\n2. Anlass / Schadensmeldung\n${sec.s2}\n\n3. Schadensbild vor Ort\n${sec.s3}\n\n4. Durchgeführte Untersuchungen\n${sec.s4}\n\n5. Technische Feststellungen\n${sec.s5}\n\n6. Bewertung / wahrscheinliche Ursache\n${sec.s6}\n\n7. Empfohlene Maßnahmen\n${sec.s7}\n\n${photos.length>0?'8. Fotodokumentation / Bildnachweise\n'+caps.map((c,i)=>'Bild '+(i+1)+': '+c).join('\n')+'\n\n':''}\nTechniker: ${d.techniker}\nDatum: ${d.fmtDatum}\n\nUnterschrift: _______________________\n\n${FOOTER_TEXT}`;
+  if(navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(txt).then(()=>toast('✓ Kopiert!')).catch(()=>fallbackCopy(txt));
+  } else { fallbackCopy(txt); }
+}
+function fallbackCopy(txt) {
+  const ta=document.createElement('textarea'); ta.value=txt; ta.style.position='fixed'; ta.style.opacity='0';
+  document.body.appendChild(ta); ta.select();
+  try { document.execCommand('copy'); toast('✓ Kopiert!'); } catch(e) { toast('Kopieren fehlgeschlagen'); }
+  document.body.removeChild(ta);
+}
+
+function doWord() {
+  const html = buildPrintHTML();
+  const blob = new Blob(['﻿'+html],{type:'application/msword'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href=url;
+  a.download=`Leckageortungsbericht_${getData().fmtDatum.replace(/\./g,'-')}.doc`;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
+  toast('Word-Datei wird heruntergeladen');
+}
+
+async function doShare() {
+  const d=getData(); const sec=getEditedSections()||buildFallback(d);
+  const txt=`Leckageortungsbericht\nObjekt: ${d.obj} | ${d.fmtDatum}\n\n${sec.s2}\n\n${sec.s3}`;
+  if(navigator.share){try{await navigator.share({title:'Leckageortungsbericht',text:txt});return;}catch(e){}}
+  doCopy();
 }
 
 // ── RESET ─────────────────────────────────────────────────────
 function resetAll() {
-  selectedCards = {}; photos = []; photoCaptions = []; contactType = 'eigentuemer'; reportText = '';
-  document.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
-  document.querySelectorAll('.toggle-card').forEach(c => { c.classList.remove('selected'); const ch = c.querySelector('.tc-check'); if (ch) ch.textContent = ''; });
-  document.querySelectorAll('input[type="text"], textarea').forEach(i => { if (i.id !== 'techniker_name') i.value = ''; });
-  document.getElementById('datum').value = new Date().toISOString().split('T')[0];
-  document.getElementById('techniker_name').value = 'Kevin Devey';
-  setContactType('eigentuemer');
-  renderPhotos();
-  showScreen(0);
+  cards={}; photos=[]; caps=[]; ct='e'; reportSections=null;
+  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));
+  document.querySelectorAll('.tc').forEach(c=>{c.classList.remove('on');const ch=c.querySelector('.tc-chk');if(ch)ch.textContent='';});
+  document.querySelectorAll('input[type=text],textarea').forEach(i=>{if(i.id!=='techniker')i.value='';});
+  document.getElementById('datum').value=new Date().toISOString().split('T')[0];
+  document.getElementById('techniker').value='Kevin Devey';
+  setCT('e'); renderPhotos(); showScreen(0);
 }
 
 // ── TOAST ─────────────────────────────────────────────────────
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2500);
+function toast(msg) {
+  const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
 }
 </script>
 </body>
